@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>com.microchip.mplab.nbide.embedded.makeproject</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/make-project/1">
+            <name>micromouse_exercises</name>
+            <creation-uuid>abd0d09d-bcac-462b-a490-49417f15ac2e</creation-uuid>
+            <make-project-type>0</make-project-type>
+            <sourceEncoding>ISO-8859-1</sourceEncoding>
+            <make-dep-projects/>
+            <sourceRootList>
+                <sourceRootElem>../IOconfig.h</sourceRootElem>
+                <sourceRootElem>../myPWM.h</sourceRootElem>
+                <sourceRootElem>../myTimers.h</sourceRootElem>
+                <sourceRootElem>../IOconfig.c</sourceRootElem>
+                <sourceRootElem>../myPWM.c</sourceRootElem>
+                <sourceRootElem>../main.c (new main.c file with configurable oscillator settings. )</sourceRootElem>
+                <sourceRootElem>../micromouse_exercises.X</sourceRootElem>
+            </sourceRootList>
+            <confList>
+                <confElem>
+                    <name>default</name>
+                    <type>2</type>
+                </confElem>
+            </confList>
+            <formatting>
+                <project-formatting-style>false</project-formatting-style>
+            </formatting>
+        </data>
+    </configuration>
+</project>
