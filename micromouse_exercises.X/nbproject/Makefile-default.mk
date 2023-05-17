@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=../micromouse_exercises.X/IOconfig.c ../micromouse_exercises.X/myPWM.c ../micromouse_exercises.X/main.c
+SOURCEFILES_QUOTED_IF_SPACED=../micromouse_exercises.X/IOconfig.c ../micromouse_exercises.X/myPWM.c ../micromouse_exercises.X/main.c myTimers.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1379227414/IOconfig.o ${OBJECTDIR}/_ext/1379227414/myPWM.o ${OBJECTDIR}/_ext/1379227414/main.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1379227414/IOconfig.o.d ${OBJECTDIR}/_ext/1379227414/myPWM.o.d ${OBJECTDIR}/_ext/1379227414/main.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/1379227414/IOconfig.o ${OBJECTDIR}/_ext/1379227414/myPWM.o ${OBJECTDIR}/_ext/1379227414/main.o ${OBJECTDIR}/myTimers.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/1379227414/IOconfig.o.d ${OBJECTDIR}/_ext/1379227414/myPWM.o.d ${OBJECTDIR}/_ext/1379227414/main.o.d ${OBJECTDIR}/myTimers.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1379227414/IOconfig.o ${OBJECTDIR}/_ext/1379227414/myPWM.o ${OBJECTDIR}/_ext/1379227414/main.o
+OBJECTFILES=${OBJECTDIR}/_ext/1379227414/IOconfig.o ${OBJECTDIR}/_ext/1379227414/myPWM.o ${OBJECTDIR}/_ext/1379227414/main.o ${OBJECTDIR}/myTimers.o
 
 # Source Files
-SOURCEFILES=../micromouse_exercises.X/IOconfig.c ../micromouse_exercises.X/myPWM.c ../micromouse_exercises.X/main.c
+SOURCEFILES=../micromouse_exercises.X/IOconfig.c ../micromouse_exercises.X/myPWM.c ../micromouse_exercises.X/main.c myTimers.c
 
 
 
@@ -107,6 +107,12 @@ ${OBJECTDIR}/_ext/1379227414/main.o: ../micromouse_exercises.X/main.c  .generate
 	@${RM} ${OBJECTDIR}/_ext/1379227414/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../micromouse_exercises.X/main.c  -o ${OBJECTDIR}/_ext/1379227414/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/_ext/1379227414/main.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
+${OBJECTDIR}/myTimers.o: myTimers.c  .generated_files/flags/default/562613edaac891dd8c61ee26f234de8bb619da4 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/myTimers.o.d 
+	@${RM} ${OBJECTDIR}/myTimers.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  myTimers.c  -o ${OBJECTDIR}/myTimers.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/myTimers.o.d"      -g -D__DEBUG -D__MPLAB_DEBUGGER_SIMULATOR=1    -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
 else
 ${OBJECTDIR}/_ext/1379227414/IOconfig.o: ../micromouse_exercises.X/IOconfig.c  .generated_files/flags/default/895593eaa4cd0fd515e4f3b34245faad52679411 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
 	@${MKDIR} "${OBJECTDIR}/_ext/1379227414" 
@@ -125,6 +131,12 @@ ${OBJECTDIR}/_ext/1379227414/main.o: ../micromouse_exercises.X/main.c  .generate
 	@${RM} ${OBJECTDIR}/_ext/1379227414/main.o.d 
 	@${RM} ${OBJECTDIR}/_ext/1379227414/main.o 
 	${MP_CC} $(MP_EXTRA_CC_PRE)  ../micromouse_exercises.X/main.c  -o ${OBJECTDIR}/_ext/1379227414/main.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/_ext/1379227414/main.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
+	
+${OBJECTDIR}/myTimers.o: myTimers.c  .generated_files/flags/default/20e820badfdd4c8e8d9e2df7439251139770a7b8 .generated_files/flags/default/da39a3ee5e6b4b0d3255bfef95601890afd80709
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/myTimers.o.d 
+	@${RM} ${OBJECTDIR}/myTimers.o 
+	${MP_CC} $(MP_EXTRA_CC_PRE)  myTimers.c  -o ${OBJECTDIR}/myTimers.o  -c -mcpu=$(MP_PROCESSOR_OPTION)  -MP -MMD -MF "${OBJECTDIR}/myTimers.o.d"        -g -omf=elf -DXPRJ_default=$(CND_CONF)    $(COMPARISON_BUILD)  -O0 -msmart-io=1 -Wall -msfr-warn=off    -mdfp="${DFP_DIR}/xc16"
 	
 endif
 

@@ -51,14 +51,14 @@
 
 
 /// Defines----------------------------
-#define SEVEN_MEG_OSC 0//set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
+#define SEVEN_MEG_OSC 1//set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
 
 /*
  * 
  */
 int main() 
 {
-    int pinStatus;
+//    int pinStatus;
 #if (SEVEN_MEG_OSC == 0) 
      /*** oscillator setup --------------------------------------------------
      * The external oscillator runs at 16MHz
