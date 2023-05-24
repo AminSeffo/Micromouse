@@ -48,6 +48,7 @@
 #include "xc.h"
 #include "IOconfig.h"
 #include "myTimers.h"
+#include "myPWM.h"
 /// Defines----------------------------
 #define SEVEN_MEG_OSC 1//set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
 
@@ -101,21 +102,22 @@ int main()
     while (OSCCONbits.LOCK != 1); //Wait for PPL to lock
  
     setupIO(); //configures inputs and outputs
-    initTimer1(4166); //creates a 10ms timer interrupt
-    startTimer1();
-    
+    //initTimer1(33333); //creates a 10ms timer interrupt
+    //startTimer1();
+    //initTimer2InMS(10);
+    //startTimer2();
+    //setupPWM();
     LED4 = 1; //switches off
   
     LED5 = LEDON;
  
-    LED6 = LEDON;
+    LED6 = LEDOFF;
 
     LED7 = LEDOFF;
 
     while(1)
     {
-        
-       
+           
     };
  
     

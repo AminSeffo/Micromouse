@@ -36,7 +36,10 @@ void initTimer1(unsigned int period);
 
 void startTimer1(void); 
 
-void initTimer1InMS(unsigned int timeInMS);
+void initTimer2InMS(unsigned int timeInMS);
+
+void startTimer2(void);
+
 
 #endif	/* XC_HEADER_TEMPLATE_H */
 

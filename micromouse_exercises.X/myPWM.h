@@ -34,6 +34,6 @@
 #include <xc.h> // include processor files - each processor file is guarded.  
 #define MYPWM_MAX (2*26666L)
 void setupPWM();
-
+void setupDC1PWM1(float dc);
 #endif	/* __MYPWM_H__ */
 
