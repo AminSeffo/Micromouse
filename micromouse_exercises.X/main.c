@@ -102,14 +102,16 @@ int main()
     while (OSCCONbits.LOCK != 1); //Wait for PPL to lock
  
     setupIO(); //configures inputs and outputs
+    setupPWM();
+    //setupDC1PWM1(0.1);
+    initTimer2InMS(10);
+    startTimer2();
     //initTimer1(33333); //creates a 10ms timer interrupt
-    //startTimer1();
-    //initTimer2InMS(10);
-    //startTimer2();
-    //setupPWM();
-    LED4 = 1; //switches off
+
+    
+    LED4 = 1; //switches off  must be off for pwm
   
-    LED5 = LEDON;
+    LED5 = LEDOFF;
  
     LED6 = LEDOFF;
 

@@ -1,8 +1,12 @@
 #include "myTimers.h"
 #include "IOconfig.h"
 #include "math.h"
+#include "myPWM.h"
 #define T_uc 37.5*1e-9
-
+#define _USE_MATH_DEFINES
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
 void initTimer1(unsigned int period) 
 {
     //unsigned TimerControlValue;
@@ -57,20 +61,29 @@ void startTimer2(void)
 void __attribute__((__interrupt__, auto_psv)) _T1Interrupt(void)
 {
     static int myCount=0;
+ 
     IFS0bits.T1IF = 0;           // reset Timer 1 interrupt flag 
     myCount++;
-    if (myCount==49)
-    {
-    LED6=~LED6;
-    myCount=0;
-    }
+
     
 }
 void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void)
- {
-     static int myCount=0;
-     IFS0bits.T2IF = 0;
-     myCount++;
-     
+ {  
+    static int myCount=0;
+    static float time=0.0;
+    float signal;
+    IFS0bits.T2IF = 0;  // Reset Timer 2 interrupt flag
+    myCount++;
+    time=time+0.01;
+    // Calculate the duty cycle using a sine wave function
+    signal = 0.5*(1+sin(2*M_PI*0.5*time));
+    setupDC1PWM1(signal);
+    //LED4 = ~LED4;
+    if (myCount==99)
+    {
+        LED4=~LED4;
+        myCount=0;
+    }
+
  }
 
