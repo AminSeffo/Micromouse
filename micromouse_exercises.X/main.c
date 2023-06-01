@@ -49,6 +49,7 @@
 #include "IOconfig.h"
 #include "myTimers.h"
 #include "myPWM.h"
+#include "serialComms.h"
 /// Defines----------------------------
 #define SEVEN_MEG_OSC 1//set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
 
@@ -102,10 +103,12 @@ int main()
     while (OSCCONbits.LOCK != 1); //Wait for PPL to lock
  
     setupIO(); //configures inputs and outputs
-    setupPWM();
+    //setupPWM();
     //setupDC1PWM1(0.1);
-    initTimer2InMS(10);
+    //initTimer2InMS(10);
     startTimer2();
+    
+    setupUART1();
     //initTimer1(33333); //creates a 10ms timer interrupt
 
     
@@ -119,7 +122,9 @@ int main()
 
     while(1)
     {
-           
+        for (int i=0; i<10000;i++)
+            for (int j=0; j<100;j++);
+        putsUART1("a"); 
     };
  
     
