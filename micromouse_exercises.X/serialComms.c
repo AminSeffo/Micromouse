@@ -1,6 +1,7 @@
 
 #include <xc.h>
 #include "IOconfig.h"
+#include "serialComms.h"
 
 
 /*
@@ -18,7 +19,7 @@ void setupUART1(void)
 {
 	U1MODEbits.UARTEN=0; //switch the uart off during set-up
 	U1BRG=28; // baud rate register
-	U1MODEbits.LPBACK=0; // in loopback mode for test! TODO: set to no loop-back (=0) after test 
+	U1MODEbits.LPBACK=1; // in loopback mode for test! TODO: set to no loop-back (=0) after test 
 	
 	U1MODEbits.WAKE=0; //do not wake up on serial port activity
 
@@ -73,7 +74,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void)
 	rxData=U1RXREG;
     
     //and copy it back out to UART
-    U1TXREG=rxData;
+    //U1TXREG=rxData;
         //wait until the character is gone...
 
 	//we should also clear the overflow bit if it has been set (i.e. if we were to slow to read out the fifo)
@@ -91,7 +92,6 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void)
 	The data in the receive FIFO should be read prior to clearing the OERR bit. The
 	FIFO is reset when OERR is cleared, which causes all data in the buffer to be lost.
 	*/
-
 }
 void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void)
 {	
