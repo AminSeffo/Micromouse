@@ -55,7 +55,7 @@
 #include "adc.h"
 #include <stdio.h>
 /// Defines----------------------------
-#define SEVEN_MEG_OSC 1//set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
+#define SEVEN_MEG_OSC 0//set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
 
 /*
  * 
@@ -133,15 +133,16 @@ int main()
     while(1)
     {
         
-        /*
         
-        for (int i=0; i<10000;i++)
+        
+        /*for (int i=0; i<10000;i++)
             for (int j=0; j<100;j++);
-        putsUART1("a"); 
-         */
+        putsUART1("abcdefghijklmuvwxyz"); 
+         * */
+         
 
         float refVoltage,voltage;
-        refVoltage= 4.8e-3;
+        refVoltage= 3.3/4096;
         voltage=TEST_SENSOR*refVoltage;
         
         if (voltage>3.5)
@@ -153,11 +154,11 @@ int main()
             LED5=LEDOFF;
             LED6=LEDON;
         }
-  
+        
+        sprintf(outBuffer, "Value: %.3f\n\0", voltage);
+        putsUART1(outBuffer);
     };
     
-    sprintf(outBuffer, "Value: %u\n", TEST_SENSOR);
-    putsUART1(outBuffer);
     //float duty_cycle;
     //duty_cycle=TEST_SENSOR/1023;
     return 0;
