@@ -51,6 +51,8 @@
 #include "myTimers.h"
 #include "myPWM.h"
 #include "serialComms.h"
+#include "dma.h"
+#include "adc.h"
 /// Defines----------------------------
 #define SEVEN_MEG_OSC 1//set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
 
@@ -104,12 +106,18 @@ int main()
     while (OSCCONbits.LOCK != 1); //Wait for PPL to lock
  
     setupIO(); //configures inputs and outputs
+    setupADC1();
+    initDmaChannel4();
+    
+    //startADC1();
+  
+ 
     //setupPWM();
     //setupDC1PWM1(0.1);
     //initTimer2InMS(10);
-    startTimer2();
+    //startTimer2();
     
-    setupUART1();
+    //setupUART1();
     //initTimer1(33333); //creates a 10ms timer interrupt
 
     
@@ -123,12 +131,28 @@ int main()
 
     while(1)
     {
+        /*
+         
+        
         for (int i=0; i<10000;i++)
             for (int j=0; j<100;j++);
         putsUART1("a"); 
+         */
+    float refVoltage,voltage;
+    refVoltage= 4.8e-3;
+    voltage=TEST_SENSOR*refVoltage;
+    if (TEST_SENSOR>512)
+    {
+        LED4=LEDON;
+    }
+    else
+    {
+        LED4=LEDOFF;
+    }
+  
     };
- 
-    
+    //float duty_cycle;
+    //duty_cycle=TEST_SENSOR/1023;
     return 0;
 }
 

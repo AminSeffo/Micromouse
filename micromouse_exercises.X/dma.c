@@ -1,5 +1,6 @@
 #include "dma.h"
 #include "IOconfig.h"
+#include "adc.h"
 
 unsigned int adcData[32]__attribute__((space(dma)));
 
@@ -35,6 +36,7 @@ void initDmaChannel4(void)
 void __attribute__((interrupt, auto_psv)) _DMA4Interrupt(void)
 {
 	IFS2bits.DMA4IF 		= 0;	// Clear DMA interrupt
+    startADC1();
 };
 
 
