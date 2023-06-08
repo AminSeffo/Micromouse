@@ -53,6 +53,7 @@
 #include "serialComms.h"
 #include "dma.h"
 #include "adc.h"
+#include <stdio.h>
 /// Defines----------------------------
 #define SEVEN_MEG_OSC 1//set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
 
@@ -128,7 +129,7 @@ int main()
     //initTimer2InMS(10);
     //startTimer2();
     
-    //setupUART1();
+    setupUART1();
     //initTimer1(33333); //creates a 10ms timer interrupt
 
     
@@ -139,6 +140,8 @@ int main()
     LED6 = LEDOFF;
 
     LED7 = LEDOFF;
+    
+    char outBuffer[32];
     while(1)
     {
         
@@ -156,6 +159,9 @@ int main()
         
   
     };
+    
+    sprintf(outBuffer, "Value: %u\n", TEST_SENSOR);
+    putsUART1(outBuffer);
     //float duty_cycle;
     //duty_cycle=TEST_SENSOR/1023;
     return 0;
