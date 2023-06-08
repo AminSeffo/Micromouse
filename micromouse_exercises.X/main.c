@@ -59,6 +59,20 @@
 /*
  * 
  */
+void potentiometer_LED5_switch(float voltage){
+    if (voltage>3.5){
+        LED5=LEDON;
+    }else{
+        LED5=LEDOFF;
+        LED6=LEDON;
+    }
+}
+
+void dim_LED_potentiometer(float voltage){
+    //setupDC1PWM1(TEST_SENSOR/670);
+    setupDC1PWM1(voltage/3.3);
+}
+
 int main() 
 {
 //    int pinStatus;
@@ -109,9 +123,7 @@ int main()
     initDmaChannel4();
     setupADC1();
     startADC1();
-  
- 
-    //setupPWM();
+    setupPWM();
     //setupDC1PWM1(0.1);
     //initTimer2InMS(10);
     //startTimer2();
@@ -131,25 +143,17 @@ int main()
     {
         
         /*
-        
         for (int i=0; i<10000;i++)
             for (int j=0; j<100;j++);
         putsUART1("a"); 
          */
-
         float refVoltage,voltage;
-        refVoltage= 4.8e-3;
+        refVoltage= 3.3/4096;
         voltage=TEST_SENSOR*refVoltage;
+
+        // potentiometer_LED5_switch(voltage);
+        dim_LED_potentiometer(voltage);
         
-        if (voltage>3.5)
-        {
-            LED5=LEDON;
-        }
-        else
-        {
-            LED5=LEDOFF;
-            LED6=LEDON;
-        }
   
     };
     //float duty_cycle;
