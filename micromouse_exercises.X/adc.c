@@ -26,6 +26,7 @@ void setupADC1()
    
     
     //AD1PCFGL = 0xffff;     //  0b1111 1111 1110 1100 AN0,1 and 4  analog inputs
+    
     ADPCFGbits.PCFG5=0; // potentiometer is connected AN5 
     AD1CON1bits.ADSIDL=0;//no sampling in idle mode
     AD1CON1bits.ADDMABM=1; //DMA channels are written in order of conversion
