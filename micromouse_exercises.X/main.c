@@ -4,7 +4,7 @@
  *
  * Created on 27 Nov 2020, 09:36
  */
-// group test
+// group memebers: 
 
 
 /// Configuration Bits---------------------------
@@ -106,10 +106,9 @@ int main()
     while (OSCCONbits.LOCK != 1); //Wait for PPL to lock
  
     setupIO(); //configures inputs and outputs
-    setupADC1();
     initDmaChannel4();
-    
-    //startADC1();
+    setupADC1();
+    startADC1();
   
  
     //setupPWM();
@@ -128,27 +127,29 @@ int main()
     LED6 = LEDOFF;
 
     LED7 = LEDOFF;
-
     while(1)
     {
+        
         /*
-         
         
         for (int i=0; i<10000;i++)
             for (int j=0; j<100;j++);
         putsUART1("a"); 
          */
-    float refVoltage,voltage;
-    refVoltage= 4.8e-3;
-    voltage=TEST_SENSOR*refVoltage;
-    if (TEST_SENSOR>512)
-    {
-        LED4=LEDON;
-    }
-    else
-    {
-        LED4=LEDOFF;
-    }
+
+        float refVoltage,voltage;
+        refVoltage= 4.8e-3;
+        voltage=TEST_SENSOR*refVoltage;
+        
+        if (voltage>3.5)
+        {
+            LED5=LEDON;
+        }
+        else
+        {
+            LED5=LEDOFF;
+            LED6=LEDON;
+        }
   
     };
     //float duty_cycle;

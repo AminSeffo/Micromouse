@@ -36,7 +36,7 @@ void initDmaChannel4(void)
 void __attribute__((interrupt, auto_psv)) _DMA4Interrupt(void)
 {
 	IFS2bits.DMA4IF 		= 0;	// Clear DMA interrupt
-    startADC1();
+
 };
 
 
