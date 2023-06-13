@@ -25,7 +25,7 @@ void setupADC1()
     AD1CON1bits.ADON = 0; // disable ADC1 module
    
     
-    //AD1PCFGL = 0xffff;     //  0b1111 1111 1110 1100 AN0,1 and 4  analog inputs
+    //AD1PCFGL = 0xffff;     //  0b1111 1111 1110 1100 AN0,1 and 4  analog inputs; here you can address multiple channels  
     
     ADPCFGbits.PCFG5=0; // potentiometer is connected AN5 
     AD1CON1bits.ADSIDL=0;//no sampling in idle mode
