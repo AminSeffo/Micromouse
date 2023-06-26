@@ -53,6 +53,7 @@
 #include "serialComms.h"
 #include "dma.h"
 #include "adc.h"
+#include "motorEncoders.h"
 #include <stdio.h>
 /// Defines----------------------------
 #define SEVEN_MEG_OSC 0//set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
@@ -128,6 +129,9 @@ int main()
     //setupDC1PWM1(0.1);
     //initTimer2InMS(10);
     //startTimer2();
+
+    initQEI1(0); // Set the initial position of encoder 1 to 0
+    initQEI2(0);
     
     setupUART1();
     //initTimer1(33333); //creates a 10ms timer interrupt
