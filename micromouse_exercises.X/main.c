@@ -148,7 +148,8 @@ int main()
     char outBuffer[32];
     while(1)
     {
-        
+    long  position1 = getPositionInCounts_1();
+    long  position2 = getPositionInCounts_2();
        float refVoltage,voltage;
         refVoltage= 3.3/4096;
         voltage=TEST_SENSOR*refVoltage;
