@@ -25,7 +25,7 @@ void setupADC1()
     AD1CON1bits.ADON = 0; // disable ADC1 module
    
     
-    //AD1PCFGL = 0xffff;     //  0b1111 1111 1110 1100 AN0,1 and 4  analog inputs
+    //AD1PCFGL = 0xffff;     //  0b1111 1111 1110 1100 AN0,1 and 4  analog inputs; here you can address multiple channels  
     
     ADPCFGbits.PCFG5=0; // potentiometer is connected AN5 
     AD1CON1bits.ADSIDL=0;//no sampling in idle mode
@@ -75,7 +75,7 @@ void setupADC1()
 
 
     //AD1CSSL (input scan select register)
-    AD1CSSL= 0b0000000000100001; //select the analog channel 0 and 5 !!!CHANGE HERE!!!
+    AD1CSSL= 0b0000000000100001; //select the analog channel 0 and 5 !!!CHANGE HERE!!!, its also important for adcData[x]
 
 
     AD1CHS123bits.CH123NA = 0b00; //negative input for S/H 123 is Vref -
