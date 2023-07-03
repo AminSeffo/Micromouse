@@ -1,29 +1,50 @@
 #include "control.h"
 
-void PIControl_Init(PIControl* control, float kp, float ki, float setpoint) {
-    control->kp = kp;
-    control->ki = ki;
-    control->setpoint = setpoint;
-    control->error_sum = 0.0f;
-    control->prev_error = 0.0f;
+void PIControl_Init(PIControl* controller, float kp, float ki, float setpoint) {
+    controller->kp = kp;
+    controller->ki = ki;
+    controller->setpoint = setpoint;
+    controller->integral = 0.0f; 
 }
 
-float PIControl_Update(PIControl* control, float measured_value, float dt) {
-    // Calculate the error
-    float error = control->setpoint - measured_value;
+float output_limiter(float signal, float max, float min){
+    if(signal > max){
+        signal = max;
+    }else if(signal < min){
+        signal = min;
+    }
+    return signal;
+}
 
-    // Calculate the proportional term
-    float p_term = control->kp * error;
-
-    // Calculate the integral term
-    control->error_sum += error * dt;
-    float i_term = control->ki * control->error_sum;
-
-    // Calculate the control signal
-    float control_signal = p_term + i_term;
-
-    // Update the previous error
-    control->prev_error = error;
-
+float p_control(PIControl* controller, long pos, long measure){
+    long error = pos - measure;
+    
+    float p_term = controller->kp * (float) error;
+    
+    float control_signal = p_term;
+    
+    if (control_signal>1.0){
+        control_signal=1.0;
+    }else if (control_signal<-1.0){
+        control_signal=-1.0;
+    }
     return control_signal;
 }
+
+
+float pi_control(PIControl* controller, long pos, long measure){
+    long error = pos - measure;
+    controller -> integral += error * controller -> ki;
+    controller->integral = output_limiter(controller -> integral, 1, -1 );
+    
+    
+    float p_term = controller->kp * (float) error;
+    float i_term = controller -> integral;
+    
+    
+    float control_signal = output_limiter(p_term+i_term,1,-1);
+    
+    
+    return control_signal;
+    
+} 

@@ -10,15 +10,18 @@
 #include <xc.h>
 #include "motorEncoders.h"
 
+#define MAX_V 70
+
 typedef struct {
     float kp;   // Proportional gain  (P-controller)
     float ki;   // Integral gain      (I-controller)
-    float setpoint;  // Setpoint for the control system
-    float error_sum;  // Accumulated error for integral control
-    float prev_error; // Previous error for derivative control
+    float setpoint;  // Setpoint for the control system (desired value)
+    float integral;  // Accumulated error for integral control 
 } PIControl;
 
 void PIControl_Init(PIControl* control, float kp, float ki, float setpoint);
-float PIControl_Update(PIControl* control, float measured_value, float dt);
+float PIControl_Update(PIControl* control, float measured_value);
+float p_control(PIControl* control, long pos, long measure);
+float pi_control(PIControl* controller, long pos, long measure);
 
 #endif /* CONTROL_H */

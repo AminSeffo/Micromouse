@@ -19,6 +19,8 @@ long getPositionInCounts_1();
 int getVelocityInCountsPerSample_1();
 long getPositionInCounts_2();
 int getVelocityInCountsPerSample_2();
+//float controlMotorVelocity(float speed, char* outBuffer, PIControl *controller, float dt);
+
 
 extern long rotationCount1;
 extern long rotationCount2;
@@ -36,6 +38,7 @@ extern long rotationCount2;
 #define DELTATICKS_180_DEGREES (0.5 * WHEEL_ROTATIONS_PERROBOT_ROTATION*TICKS_PER_WHEELROTATION)
 #define DELTATICKS_CELL_GAP (11.5*TICKS_PER_CENTIMETER)
 
+#define MAX_V 70 //max velcocity in counts per ms with 100% duty cycle
 
 
 
