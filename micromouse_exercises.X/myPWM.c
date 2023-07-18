@@ -24,6 +24,9 @@ void setupPWM()
     P1DC3 = 0;
 }
 
+/*
+* Hardcoded limits for DC for Motor (9V to 6V conversion)
+*/
 void setupDC1PWM1(float dc)
 {   
     //this function sets the duty cycle of PWM1H1

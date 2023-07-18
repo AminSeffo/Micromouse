@@ -7,6 +7,11 @@
       <itemPath>../micromouse_exercises.X/IOconfig.h</itemPath>
       <itemPath>../micromouse_exercises.X/myPWM.h</itemPath>
       <itemPath>../micromouse_exercises.X/myTimers.h</itemPath>
+      <itemPath>adc.h</itemPath>
+      <itemPath>control.h</itemPath>
+      <itemPath>dma.h</itemPath>
+      <itemPath>motorEncoders.h</itemPath>
+      <itemPath>serialComms.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -19,6 +24,11 @@
       <itemPath>../micromouse_exercises.X/myPWM.c</itemPath>
       <itemPath>../micromouse_exercises.X/main.c</itemPath>
       <itemPath>myTimers.c</itemPath>
+      <itemPath>adc.c</itemPath>
+      <itemPath>control.c</itemPath>
+      <itemPath>dma.c</itemPath>
+      <itemPath>motorEncoders.c</itemPath>
+      <itemPath>serialComms.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -46,7 +56,7 @@
         <platformTool>pk4hybrid</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>2.10</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>4</platform>
       </toolsSet>
       <packs>
         <pack name="dsPIC33F-GP-MC_DFP" vendor="Microchip" version="1.3.64"/>

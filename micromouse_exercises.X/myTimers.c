@@ -1,7 +1,8 @@
 #include "myTimers.h"
 #include "IOconfig.h"
 #include "math.h"
-#include "myPWM.h"
+#include "control.h"
+
 #define T_uc 37.5*1e-9
 #define _USE_MATH_DEFINES
 #ifndef M_PI
@@ -41,8 +42,7 @@ void initTimer2InMS(unsigned int timeInMS)
     IPC1bits.T2IP = 4; // set Timer 2 interrupt priority level to 4
     IEC0bits.T2IE = 1; // enable Timer 2 interrupt
     T2CONbits.TON = 0; // leave timer  disabled initially
-  
-    
+ 
 }
 
 void startTimer1(void) 
@@ -59,15 +59,6 @@ void startTimer2(void)
 
 
 void __attribute__((__interrupt__, auto_psv)) _T1Interrupt(void)
-{
-    static int myCount=0;
- 
-    IFS0bits.T1IF = 0;           // reset Timer 1 interrupt flag 
-    myCount++;
-
-    
-}
-void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void)
  {  
     static int myCount=0;
     static float time=0.0;
@@ -75,15 +66,43 @@ void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void)
     IFS0bits.T2IF = 0;  // Reset Timer 2 interrupt flag
     myCount++;
     time=time+0.01;
+
+
     // Calculate the duty cycle using a sine wave function
     signal = 0.5*(1+sin(2*M_PI*0.5*time));
     setupDC1PWM1(signal);
     //LED4 = ~LED4;
     if (myCount==99)
     {
-        LED4=~LED4;
+        
+        LED5=~LED5;
         myCount=0;
+        
+        
+        
     }
 
  }
+
+
+
+void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void)
+{
+    static int myCount=0;
+    static char outBuffer[32];
+    static PIControl controller = {0.1, 0.1, goal_speed};
+ 
+    IFS0bits.T1IF = 0;           // reset Timer 1 interrupt flag 
+    myCount++;
+
+    float goal_speed = 0 // percent of full speed [-1, 1]
+
+    //set goal speed to full speed forward after 5 seconds
+    if (myCount>=500){
+        goal_speed = 1.0
+    }
+    
+    velocity_control(&controller, goal_speed, outBuffer);
+    
+}
 

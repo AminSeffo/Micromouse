@@ -35,3 +35,5 @@
 /micromouse_exercises.X/nbproject/Makefile-genesis.properties
 /micromouse_exercises.X/nbproject/configurations.xml
 .DS_Store
+/micromouse_exercises.X/dist/
+/micromouse_exercises.X/build/
