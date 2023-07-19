@@ -9,12 +9,11 @@
 #define	IOCONFIG_H
 
 
-#define LED4 LATBbits.LATB15
-#define LED5 LATBbits.LATB14
-#define LED6 LATBbits.LATB13
-#define LED7 LATBbits.LATB12
+#define LED1 LATBbits.LATB11
+#define LED2 LATBbits.LATB10
+#define LED3 LATBbits.LATB9
 
-#define SW1 !PORTBbits.RB5 
+#define SW1 !PORTBbits.RB8 //todo: this is not used??
 
 
 #define LEDON 0
