@@ -63,9 +63,6 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void)
 	/**Set the UART2 receiving interrupt flag to zero*/
  
 	IFS0bits.U1RXIF=0;
-
-    LED4=~LED4;
-    // LED5=~LED5;
 	
 
 
@@ -120,7 +117,6 @@ void putsUART1(char *buffer)
 
     /* transmit till NULL character is encountered */
     
-    LED4 = LEDON;
 
     if(U1MODEbits.PDSEL == 3)        /* check if TX is 8bits or 9bits */
     {

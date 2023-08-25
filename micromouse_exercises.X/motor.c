@@ -15,7 +15,7 @@ void setupMotor()
     P1TCONbits.PTCKPS = 0b00; // Sets prescaler, available are 1(00),4(01),16(10) or 64(11)
     P1TPER = MYPWM_MAX/2; //15 bit register
     PWM1CON1bits.PMOD1 = 1; // set PWM unit 1 to independent mode
-    PWMqCON1bits.PMOD2 = 1; // set PWM unit 2 to independent mode
+    PWM1CON1bits.PMOD2 = 1; // set PWM unit 2 to independent mode
     PWM1CON1bits.PEN1H = 1; // enable  PWM driver
     PWM1CON1bits.PEN2H = 1; // disable PWM driver
     PWM1CON1bits.PEN3H = 0; // disable PWM driver
@@ -40,11 +40,11 @@ void setupMotor()
     P1DC3 = 0;
 }
 
-void setMotor1Dir(uint8_t fwd){
+void setMotor1Dir(int fwd){
     P1OVDCONbits.POVD1H = fwd != 0;
     P1OVDCONbits.POVD1L = fwd == 0;
 }
-void setMotor2Dir(uint8_t fwd){
+void setMotor2Dir(int fwd){
     P1OVDCONbits.POVD2H = fwd != 0;
     P1OVDCONbits.POVD2L = fwd == 0;
 }

@@ -8,6 +8,13 @@
       <itemPath>../micromouse_exercises.X/myPWM.h</itemPath>
       <itemPath>../micromouse_exercises.X/myTimers.h</itemPath>
       <itemPath>tests.h</itemPath>
+      <itemPath>adc.h</itemPath>
+      <itemPath>control.h</itemPath>
+      <itemPath>dma.h</itemPath>
+      <itemPath>motor.h</itemPath>
+      <itemPath>motorEncoders.h</itemPath>
+      <itemPath>serialComms.h</itemPath>
+      <itemPath>led.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -21,6 +28,13 @@
       <itemPath>../micromouse_exercises.X/main.c</itemPath>
       <itemPath>myTimers.c</itemPath>
       <itemPath>tests.c</itemPath>
+      <itemPath>adc.c</itemPath>
+      <itemPath>control.c</itemPath>
+      <itemPath>dma.c</itemPath>
+      <itemPath>motor.c</itemPath>
+      <itemPath>motorEncoders.c</itemPath>
+      <itemPath>serialComms.c</itemPath>
+      <itemPath>led.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
