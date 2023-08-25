@@ -49,10 +49,7 @@ void setupIO()
     TRISBbits.TRISB14 = 0;
     TRISBbits.TRISB15 = 0;
 
-    //Oscillator
     
-    
-
     
     
     //OUTPUT PIN receives data from which PERIPHERAL, 

@@ -81,7 +81,6 @@ void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void)
     //LED4 = ~LED4;
     if (myCount==99)
     {
-        LED4=~LED4;
         myCount=0;
     }
 
