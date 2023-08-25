@@ -54,16 +54,103 @@
 #include "motorEncoders.h"
 #include "control.h"
 #include <stdio.h>
-
-
-#include "tests.h"
-
 /// Defines----------------------------
 #define SEVEN_MEG_OSC 0 // set to 1 if we use slow (7.3728 MHz) oscillator and not 16 MHz
 
 /*
  *
  */
+void potentiometer_LED5_switch(float voltage)
+{
+    if (voltage > 3.5)
+    {
+        LED5 = LEDON;
+    }
+    else
+    {
+        LED5 = LEDOFF;
+        LED6 = LEDON;
+    }
+}
+
+void dim_LED_potentiometer(float voltage)
+{
+    // setupDC1PWM1(TEST_SENSOR/670);
+    setupDC1PWM1(voltage / 3.3);
+}
+
+float read_potentiometer(){
+    float refVoltage, voltage;
+    refVoltage = 3.3 / 4096;
+    voltage = TEST_SENSOR * refVoltage;
+    
+    return voltage;
+}
+
+float dc_converter(float speed){
+//    6 volt are max, we get 9V input
+    return speed*0.3 + 0.5;
+}
+
+void potentiometer_test()
+{
+    float voltage = read_potentiometer();
+    // potentiometer_LED5_switch(voltage);
+    dim_LED_potentiometer(voltage);
+}
+
+void set_Motor_velocity(float velocity)
+{
+    float duty_cycle = dc_converter(velocity);
+    setupDC1PWM1(duty_cycle);
+}
+
+float controlMotorVelocity(float speed, char *outBuffer, PIControl *controller)
+{
+    set_Motor_velocity(speed);
+    // Read encoder value
+    float encoderValue = getPositionInCounts_1();
+    int velocity = getVelocityInCountsPerSample_1();
+
+    //float controlSignal = PIControl_Update(&controller, (float) velocity);
+
+    sprintf(outBuffer, "Value: %0.3f\n\r\0", velocity);
+    putsUART1(outBuffer);
+    //        LED5=LEDOFF;
+    //    speed -= controlSignal/MAX_V;
+    return speed;
+}
+
+void controlMotorPosition(long pos, char *outBuffer, PIControl *controller)
+{
+    
+    // Read encoder value
+    long encoderValue = getPositionInCounts_1();
+    long error = pos - encoderValue;
+    
+//    float p_term = controller->kp * (float) error;
+    float speed = pi_control(controller, pos, encoderValue);
+    set_Motor_velocity(speed);
+   
+
+    sprintf(outBuffer, "%ld, %0.3f \n\r\0", encoderValue, speed);
+    putsUART1(outBuffer);
+    //        LED5=LEDOFF;
+    //    speed -= controlSignal/MAX_V;
+}
+
+void printPosition(char *outBuffer)
+{
+    float count = getPositionInRad();
+    sprintf(outBuffer, "Value: %0.3f\n\0", count);
+    putsUART1(outBuffer);
+}
+
+float set_velocity_potentiometer(char *outBuffer, PIControl *controller){
+    float voltage = read_potentiometer();
+    float speed = controlMotorVelocity(voltage/3.3, outBuffer, &controller);
+}
+
 
 int main()
 {
@@ -110,8 +197,43 @@ int main()
     while (OSCCONbits.LOCK != 1)
         ; // Wait for PPL to lock
 
-    
-    runLedTest();
-	
-	return 0;
+    setupIO(); // configures inputs and outputs
+    initDmaChannel4();
+    setupADC1();
+    startADC1();
+    setupPWM();
+
+    //    initTimer2InMS(100);
+    //    startTimer2();
+
+    initQEI1(0); // Set the initial position of encoder 1 to 0
+    initQEI2(0);
+
+    setupUART1();
+    // initTimer1(33333); //creates a 10ms timer interrupt
+
+    LED4 = 1; // switches off  must be off for pwm
+
+    LED5 = LEDOFF;
+
+    LED6 = LEDOFF;
+
+    LED7 = LEDOFF;
+
+    char outBuffer[32];
+    PIControl controller;
+
+    float speed = 0.7; //-1 1
+    float speedInTicks = speed * MAX_V;
+
+    PIControl_Init(&controller, 0.01, 0.001, speedInTicks); // K_i and K_p are 0.5
+
+    while (1)
+    {
+        //speed = set_velocity_potentiometer(outBuffer, &controller);
+        //speed = (float)controlMotorVelocity(speed, outBuffer, &controller);
+        controlMotorPosition(10000, outBuffer, &controller);
+    };
+
+    return 0;
 }

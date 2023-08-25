@@ -18,8 +18,8 @@ void setupIO()
     TRISBbits.TRISB10 = 0; //LED 2
     TRISBbits.TRISB9 = 0;  //LED 3
     
-    TRISBbits.TRISA7=0;// UART TX (output)
-    TRISBbits.TRISA6=1;// UART RX (input)
+    TRISBbits.TRISB7=0;// UART TX (output)
+    TRISBbits.TRISB6=1;// UART RX (input)
 
     //PIN MAPPING
     
@@ -27,8 +27,8 @@ void setupIO()
     __builtin_write_OSCCONL(OSCCON & 0xbf); // clear bit 6 (unlock, they are usually write protected)
     
     // PERIPHERAL receives data from which INPUT  
-    RPINR18bits.U1RXR = 9; //mapped to RP9 is U1 RX, CHANGE THIS  //TODO: check if this is correct
-
+    RPINR18bits.U1RXR = 19; //mapped to RP9 is U1 RX, CHANGE THIS  //TODO: check if this is correct
+    RPOR10bits.RP20R = 3;
     
     //PERIPHERAL QEA Encoder 1, receives data from RP25
    RPINR14bits.QEA1R = 25; 
@@ -49,14 +49,12 @@ void setupIO()
     TRISBbits.TRISB14 = 0;
     TRISBbits.TRISB15 = 0;
 
-    //Oscillator
     
-
     
     
     //OUTPUT PIN receives data from which PERIPHERAL, 
     //see table 11-2 in datasheet to check peripheral codes 
-    PORTAbits.RA7=0b00011; //output pin RA7 gets data from peripheral U1 TX
+    //PORTAbits.RA7=0b00011; //output pin RA7 gets data from peripheral U1 TX
    
     //after mapping we lock again
      __builtin_write_OSCCONL(OSCCON | 0x40); // Lock PPS registers (lock again!)
