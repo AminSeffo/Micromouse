@@ -11,16 +11,14 @@
 
 #include<xc.h>
 
+void setupMotorEncoders(unsigned int startPos1, unsigned int startPos2);
 void initQEI1( unsigned int  startPos);
 void initQEI2( unsigned int  startPos);
 float getPositionInRad();
-//float getVelocityInRadPerSecond();
 long getPositionInCounts_1();
 int getVelocityInCountsPerSample_1();
 long getPositionInCounts_2();
 int getVelocityInCountsPerSample_2();
-//float controlMotorVelocity(float speed, char* outBuffer, PIControl *controller, float dt);
-
 
 extern long rotationCount1;
 extern long rotationCount2;
