@@ -10,7 +10,7 @@
 
     
 void runLedTest();
-
+void runEncoderTest(float pos);
 
 
 #endif	/* TESTS_H */
