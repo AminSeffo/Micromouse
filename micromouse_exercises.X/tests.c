@@ -1,6 +1,8 @@
 #include "tests.h"
-#include "xc.h"
+#include <xc.h>
 #include "IOconfig.h"
+#include "dma.h"
+#include "button.h"
 
 
 void runLedTest()
@@ -28,3 +30,45 @@ void runEncoderTest(float pos){
     }
     
 }
+
+void runSensorTest(){
+    // Check if this output makes sense with debug first ?
+    setupIO();
+    LED1 = LEDOFF;
+    LED2 = LEDOFF;
+    LED3 = LEDOFF;
+    
+    if (SENSOR_FRONT>100){
+        LED1 = LEDON;
+    }
+    if (SENSOR_LEFT>100){
+        LED2 = LEDON;
+    }
+    if (SENSOR_RIGHT>100){
+        LED3 = LEDON;
+    }
+}
+
+void runButtonTest(){
+    setupIO();
+
+    if(BUTTON_STATE == BUTTONON){
+        LED1 = LEDON;
+        LED2 = LEDOFF;
+    }
+    else{
+        LED1=LEDOFF;
+        LED2=LEDON;
+    }
+}
+
+void runButtonPressTest(int buttonHistory){
+    setupIO();
+    if(buttonHistory == BUTTON_STATE){
+        LED3=LEDOFF;
+    }
+}
+
+
+
+

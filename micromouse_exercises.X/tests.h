@@ -1,6 +1,6 @@
 /* 
  * File:   tests.h
- * Author: marius
+ * Author: marius, yara
  *
  * Created on August 25, 2023, 4:03 PM
  */
@@ -11,6 +11,9 @@
     
 void runLedTest();
 void runEncoderTest(float pos);
+void runSensorTest();
+void runButtonTest();
+void runButtonPressTest(int buttonHistory);
 
 
 #endif	/* TESTS_H */

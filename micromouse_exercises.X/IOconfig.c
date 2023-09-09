@@ -18,6 +18,8 @@ void setupIO()
     TRISBbits.TRISB10 = 0; //LED 2
     TRISBbits.TRISB9 = 0;  //LED 3
     
+    TRISBbits.TRISB8 = 1 // Switch 1 is an input
+    
     TRISBbits.TRISB7=0;// UART TX (output)
     TRISBbits.TRISB6=1;// UART RX (input)
 
