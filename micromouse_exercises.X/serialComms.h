@@ -35,5 +35,9 @@
 
 void setupUART1(void);
 void putsUART1(char *buffer);
+void setupBT(void);
+void connectBT(void);
+void sendMessage(char *message);
+
 #endif	/* SERIALCOMMS_H */
 

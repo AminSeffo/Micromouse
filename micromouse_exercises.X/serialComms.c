@@ -135,3 +135,30 @@ void putsUART1(char *buffer)
         }
     }
 }
+
+void setupBT(void){
+	setupUART1();
+}
+
+void connectBT(void){
+	//turn pairing mode on
+
+	//Check what kind of pins we have here. 
+	//There is probably one we need to set to high. 
+	//I can't tell from the schematic.
+
+	char outBuffer[16];
+	sprintf(outBuffer, "PAIRED\r\n\0");
+	putsUART1(outBuffer);
+}
+
+void sendMessage(char *message){
+	char outBuffer[16];
+	if len(message) > 13{
+		//error
+		sprintf(outBuffer, "MSG2LNG\r\n\0");
+	}else{
+		sprintf(outBuffer, "%s\r\n\0", message);
+	}
+	putsUART1(outBuffer);
+}
