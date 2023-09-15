@@ -112,7 +112,8 @@ int main()
 
     
     runLedTest();
-    runEncoderTest(500.0);
+    //runEncoderTest(500.0);
+    for(;;);
 	
 	return 0;
 }
