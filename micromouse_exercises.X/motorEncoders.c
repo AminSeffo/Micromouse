@@ -15,8 +15,8 @@
 
 //****************************************************************INITIALISE QEI************************
  void setupMotorEncoders(unsigned int startPos1, unsigned int startPos2){
-     initQEI1(unsigned int startPos1);
-     initQEI2(unsigned int startPos2);
+     initQEI1(startPos1);
+     initQEI2(startPos2);
  }
  
  

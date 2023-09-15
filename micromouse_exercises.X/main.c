@@ -112,7 +112,13 @@ int main()
 
     
     runLedTest();
-    runEncoderTest(500.0);
+    //runEncoderTest(500.0);
+
+    for(;;){
+        sendMessage("Hello World!\n");
+        for (int i =0; i<100000; i++);
+    }
 	
+    
 	return 0;
 }

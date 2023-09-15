@@ -1,7 +1,8 @@
 #include "tests.h"
 #include "xc.h"
 #include "IOconfig.h"
-
+#include <stdio.h>
+#include <string.h>
 
 void runLedTest()
 {	

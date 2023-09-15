@@ -2,6 +2,8 @@
 #include <xc.h>
 #include "IOconfig.h"
 #include "serialComms.h"
+#include <stdio.h>
+#include <string.h>
 
 
 /*
@@ -18,7 +20,7 @@
 void setupUART1(void)
 {
 	U1MODEbits.UARTEN=0; //switch the uart off during set-up
-	U1BRG=28; // baud rate register
+	U1BRG=173; // baud rate register
 	U1MODEbits.LPBACK=0; // in loopback mode for test! TODO: set to no loop-back (=0) after test 
 	
 	U1MODEbits.WAKE=0; //do not wake up on serial port activity
@@ -154,7 +156,7 @@ void connectBT(void){
 
 void sendMessage(char *message){
 	char outBuffer[16];
-	if len(message) > 13{
+	if (strlen(message) > 13){
 		//error
 		sprintf(outBuffer, "MSG2LNG\r\n\0");
 	}else{
