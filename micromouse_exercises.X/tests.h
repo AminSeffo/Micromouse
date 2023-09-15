@@ -11,7 +11,7 @@
     
 void runLedTest();
 void runEncoderTest(float pos);
-
+void plotEncoderValuesUART(void);
 
 #endif	/* TESTS_H */
 

@@ -113,12 +113,11 @@ int main()
     setupUART1();
     runLedTest();
     //runEncoderTest(500.0);
+    initQEI1(0);
+    initQEI2(0);
 
-    for(;;){
-        putsUART1("Hello World!");
-//        for (int i =0; i<1000; i++);
-    }
+    plotEncoderValuesUART();
 	
-    
+    for(;;);
 	return 0;
 }
