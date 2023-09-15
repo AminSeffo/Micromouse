@@ -112,7 +112,14 @@ int main()
 
     
     runLedTest();
-    runEncoderTest(500.0);
-	
+    //runEncoderTest(500.0);
+    
+    moterFullSpeed();
+    
+    //LATBbits.LATB6 = 1;
+    //LATBbits.LATB7 = 1;
+
+    for(;;);
+    
 	return 0;
 }

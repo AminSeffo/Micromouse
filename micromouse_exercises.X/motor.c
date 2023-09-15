@@ -16,11 +16,11 @@ void setupMotor()
     P1TPER = MYPWM_MAX/2; //15 bit register
     PWM1CON1bits.PMOD1 = 1; // set PWM unit 1 to independent mode
     PWM1CON1bits.PMOD2 = 1; // set PWM unit 2 to independent mode
-    PWM1CON1bits.PEN1H = 1; // enable  PWM driver
-    PWM1CON1bits.PEN2H = 1; // disable PWM driver
+    PWM1CON1bits.PEN1H = 1; // enable PWM driver
+    PWM1CON1bits.PEN2H = 1; // enable PWM driver
     PWM1CON1bits.PEN3H = 0; // disable PWM driver
-    PWM1CON1bits.PEN1L = 1; // disable PWM driver
-    PWM1CON1bits.PEN2L = 1; // disable PWM driver
+    PWM1CON1bits.PEN1L = 1; // enable PWM driver
+    PWM1CON1bits.PEN2L = 1; // enable PWM driver
     PWM1CON1bits.PEN3L = 0; // disable PWM driver
     
     P1OVDCONbits.POUT1H = 0;

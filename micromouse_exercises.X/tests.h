@@ -11,7 +11,7 @@
     
 void runLedTest();
 void runEncoderTest(float pos);
-
+void moterFullSpeed();
 
 #endif	/* TESTS_H */
 

@@ -12,8 +12,8 @@
 #include<xc.h>
 
 void setupMotorEncoders(unsigned int startPos1, unsigned int startPos2);
-void initQEI1( unsigned int  startPos);
-void initQEI2( unsigned int  startPos);
+void initQEI1(unsigned int  startPos);
+void initQEI2(unsigned int  startPos);
 float getPositionInRad();
 long getPositionInCounts_1();
 int getVelocityInCountsPerSample_1();
