@@ -116,10 +116,8 @@ int main()
     
     moterFullSpeed();
     
-    //LATBbits.LATB6 = 1;
-    //LATBbits.LATB7 = 1;
-
     for(;;);
     
+	
 	return 0;
 }
