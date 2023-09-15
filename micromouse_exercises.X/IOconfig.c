@@ -18,8 +18,8 @@ void setupIO()
     TRISBbits.TRISB10 = 0; //LED 2
     TRISBbits.TRISB9 = 0;  //LED 3
     
-    TRISBbits.TRISB7=0;// UART TX (output)
-    TRISBbits.TRISB6=1;// UART RX (input)
+    TRISCbits.TRISC4=0;// UART TX (output)
+    TRISCbits.TRISC3=1;// UART RX (input)
 
     //PIN MAPPING
     
@@ -28,7 +28,7 @@ void setupIO()
     
     // PERIPHERAL receives data from which INPUT  
     RPINR18bits.U1RXR = 19; //mapped to RP9 is U1 RX, CHANGE THIS  //TODO: check if this is correct
-    RPOR10bits.RP20R = 3;
+    RPOR10bits.RP20R = 3; // mapped to RP20 is U1 TX, CHANGE THIS //TODO: check if this is correct
     
     //PERIPHERAL QEA Encoder 1, receives data from RP25
    RPINR14bits.QEA1R = 25; 
@@ -48,6 +48,7 @@ void setupIO()
     //motor 1
     TRISBbits.TRISB14 = 0;
     TRISBbits.TRISB15 = 0;
+
 
     
     

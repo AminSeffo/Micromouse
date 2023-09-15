@@ -110,13 +110,13 @@ int main()
     while (OSCCONbits.LOCK != 1)
         ; // Wait for PPL to lock
 
-    
+    setupUART1();
     runLedTest();
     //runEncoderTest(500.0);
 
     for(;;){
-        sendMessage("Hello World!\n");
-        for (int i =0; i<100000; i++);
+        putsUART1("Hello World!");
+//        for (int i =0; i<1000; i++);
     }
 	
     
