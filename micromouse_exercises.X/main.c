@@ -113,7 +113,11 @@ int main()
     
     runLedTest();
     //runEncoderTest(500.0);
+    
+    moterFullSpeed();
+    
     for(;;);
+    
 	
 	return 0;
 }

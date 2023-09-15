@@ -2,6 +2,7 @@
 #include <xc.h>
 #include "IOconfig.h"
 #include "motorEncoders.h"
+#include <math.h>
 //file global
 
 
@@ -11,8 +12,7 @@
  long rotationCount2;
 //long currentEncoderPosition;
 
-#include <math.h>
-
+ 
 //****************************************************************INITIALISE QEI************************
  void setupMotorEncoders(unsigned int startPos1, unsigned int startPos2){
      initQEI1(startPos1);
@@ -20,9 +20,8 @@
  }
  
  
-void initQEI1( unsigned int  startPos)
+void initQEI1(unsigned int  startPos)
 {
-
 
     QEI1CONbits.QEISIDL = 1; // discontinue module operation in idle mode
     QEI1CONbits.QEIM = 0b111;// Quadrature Encoder Interface enabled (x4mode) with position counter reset by match (MAX1CNT)

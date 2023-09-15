@@ -1,6 +1,7 @@
 #include "tests.h"
 #include "xc.h"
 #include "IOconfig.h"
+#include "motor.h"
 
 
 void runLedTest()
@@ -16,8 +17,6 @@ void runLedTest()
     
     //for (i = 0; i < 300000; i++); // short dirty delay for changes to take effect,
 
-    
-    
 }
 
 
@@ -33,4 +32,12 @@ void runEncoderTest(float pos){
 //        LED2 = LEDON;
 //    }
     
+}
+
+void moterFullSpeed(){
+    setupMotor();
+    setMotor1Dir(1);
+    setMotor1Speed(0.2);
+    setMotor2Dir(0);
+    setMotor2Speed(0.2);
 }
