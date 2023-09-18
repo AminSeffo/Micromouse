@@ -11,19 +11,23 @@
 
 #include<xc.h>
 
-void initQEI1( unsigned int  startPos);
-void initQEI2( unsigned int  startPos);
+void setupMotorEncoders(unsigned int startPos1, unsigned int startPos2);
+void initQEI1(unsigned int  startPos);
+void initQEI2(unsigned int  startPos);
 float getPositionInRad();
-//float getVelocityInRadPerSecond();
 long getPositionInCounts_1();
 int getVelocityInCountsPerSample_1();
 long getPositionInCounts_2();
 int getVelocityInCountsPerSample_2();
-//float controlMotorVelocity(float speed, char* outBuffer, PIControl *controller, float dt);
+void initSampleVelocity(int periodInMS);
+void startSampleVelocity();
+
 
 
 extern long rotationCount1;
 extern long rotationCount2;
+extern int velocity1;
+extern int velocity2;
 
 #define GET_ENCODER_1(RIGHT_ENCODER_POSITION_VALUE) (RIGHT_ENCODER_POSITION_VALUE=rotationCount1+POSCNT)
 #define GET_ENCODER_2(LEFT_ENCODER_POSITION_VALUE) (LEFT_ENCODER_POSITION_VALUE=rotationCount2+POS2CNT)

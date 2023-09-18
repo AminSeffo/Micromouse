@@ -7,6 +7,15 @@
       <itemPath>../micromouse_exercises.X/IOconfig.h</itemPath>
       <itemPath>../micromouse_exercises.X/myPWM.h</itemPath>
       <itemPath>../micromouse_exercises.X/myTimers.h</itemPath>
+      <itemPath>tests.h</itemPath>
+      <itemPath>adc.h</itemPath>
+      <itemPath>control.h</itemPath>
+      <itemPath>dma.h</itemPath>
+      <itemPath>motor.h</itemPath>
+      <itemPath>motorEncoders.h</itemPath>
+      <itemPath>serialComms.h</itemPath>
+      <itemPath>led.h</itemPath>
+      <itemPath>button.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -19,6 +28,15 @@
       <itemPath>../micromouse_exercises.X/myPWM.c</itemPath>
       <itemPath>../micromouse_exercises.X/main.c</itemPath>
       <itemPath>myTimers.c</itemPath>
+      <itemPath>tests.c</itemPath>
+      <itemPath>adc.c</itemPath>
+      <itemPath>control.c</itemPath>
+      <itemPath>dma.c</itemPath>
+      <itemPath>motor.c</itemPath>
+      <itemPath>motorEncoders.c</itemPath>
+      <itemPath>serialComms.c</itemPath>
+      <itemPath>led.c</itemPath>
+      <itemPath>button.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -40,13 +58,13 @@
     <conf name="default" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>dsPIC33FJ128MC802</targetDevice>
+        <targetDevice>dsPIC33FJ64MC804</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
         <platformTool>pk4hybrid</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>2.10</languageToolchainVersion>
-        <platform>3</platform>
+        <platform>4</platform>
       </toolsSet>
       <packs>
         <pack name="dsPIC33F-GP-MC_DFP" vendor="Microchip" version="1.3.64"/>
@@ -214,6 +232,8 @@
         <property key="codecoverage.outputfile" value=""/>
         <property key="debugoptions.debug-startup" value="Use system settings"/>
         <property key="debugoptions.reset-behaviour" value="Use system settings"/>
+        <property key="event.recorder.enabled" value="false"/>
+        <property key="event.recorder.scvd.files" value=""/>
         <property key="lastid" value=""/>
         <property key="oscillator.auxfrequency" value="120"/>
         <property key="oscillator.auxfrequencyunit" value="Mega"/>
@@ -684,8 +704,10 @@
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
         <property key="CRC" value="true"/>
+        <property key="DAC 1" value="true"/>
         <property key="DUAL COMPARATOR" value="true"/>
         <property key="ECAN" value="true"/>
+        <property key="ECAN 1" value="true"/>
         <property key="Freeze All Other Peripherals" value="true"/>
         <property key="I2C1" value="true"/>
         <property key="INPUT CAPTURE 1" value="true"/>
@@ -763,6 +785,8 @@
         <property key="periphComp5.gte" value="gt"/>
         <property key="periphComp6.gte" value="gt"/>
         <property key="poweroptions.powerenable" value="false"/>
+        <property key="programmerToGoFilePath"
+                  value="/Users/zeehondje/Documents/GitHub/Micromouse/micromouse_exercises.X/debug/default/micromouse_exercises_ptg"/>
         <property key="programmerToGoImageName" value="micromouse_exercises_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
@@ -1239,8 +1263,9 @@
         <property key="ADC 1" value="true"/>
         <property key="AutoSelectMemRanges" value="auto"/>
         <property key="CRC" value="true"/>
+        <property key="DAC 1" value="true"/>
         <property key="DUAL COMPARATOR" value="true"/>
-        <property key="ECAN" value="true"/>
+        <property key="ECAN 1" value="true"/>
         <property key="Freeze All Other Peripherals" value="true"/>
         <property key="I2C1" value="true"/>
         <property key="INPUT CAPTURE 1" value="true"/>
