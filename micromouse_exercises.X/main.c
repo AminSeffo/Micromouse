@@ -116,7 +116,10 @@ int main()
     plotEncoderValuesUART();
 
     
+    moterFullSpeed();
+    
     for(;;);
+    
 	
 	return 0;
 }

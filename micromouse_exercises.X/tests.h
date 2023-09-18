@@ -13,6 +13,7 @@ void runLedTest();
 void runEncoderTest(float pos);
 void plotEncoderValuesUART(void);
 
+void moterFullSpeed();
 
 #endif	/* TESTS_H */
 
