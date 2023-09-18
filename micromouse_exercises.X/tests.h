@@ -1,6 +1,6 @@
 /* 
  * File:   tests.h
- * Author: marius
+ * Author: marius, yara
  *
  * Created on August 25, 2023, 4:03 PM
  */
@@ -14,6 +14,7 @@ void runEncoderTest(float pos);
 void plotEncoderValuesUART(void);
 
 void motorFullSpeed();
+void stopSpeed();
 void testSpeedControl();
 
 #endif	/* TESTS_H */
