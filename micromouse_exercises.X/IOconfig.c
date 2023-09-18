@@ -18,6 +18,9 @@ void setupIO()
     TRISBbits.TRISB11 = 0; //LED 1
     TRISBbits.TRISB10 = 0; //LED 2
     TRISBbits.TRISB9 = 0;  //LED 3
+
+    TRISCbits.TRISC4=0;// UART TX (output)
+    TRISCbits.TRISC3=1;// UART RX (input)
     
 //    AD1PCFGLbits.PCFG8 = 0; //pin for button is analog
     
