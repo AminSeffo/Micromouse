@@ -11,7 +11,10 @@
     
 void runLedTest();
 void runEncoderTest(float pos);
-void moterFullSpeed();
+void plotEncoderValuesUART(void);
+
+void motorFullSpeed();
+void testSpeedControl();
 
 #endif	/* TESTS_H */
 
