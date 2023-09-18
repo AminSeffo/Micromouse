@@ -14,6 +14,7 @@ void runEncoderTest(float pos);
 void plotEncoderValuesUART(void);
 
 void motorFullSpeed();
+void stopSpeed();
 void testSpeedControl();
 
 #endif	/* TESTS_H */

@@ -14,7 +14,7 @@
 
 
 
-void setupButton(void (*f)(float));
+void initButton(void (*func)());
 
 #define BUTTON_STATE PORTBbits.RB8;
 

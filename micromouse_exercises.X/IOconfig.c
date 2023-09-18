@@ -13,20 +13,23 @@ void setupIO()
     int i;
     AD1PCFGL=0xFFFF; //all pins are now digital, by default they are analogue
     
+   
     // set LEDs as output
     TRISBbits.TRISB11 = 0; //LED 1
     TRISBbits.TRISB10 = 0; //LED 2
     TRISBbits.TRISB9 = 0;  //LED 3
     
-    TRISBbits.TRISB8 = 1 // Button 1 is an input
+//    AD1PCFGLbits.PCFG8 = 0; //pin for button is analog
     
-    TRISBbits.TRISB7=0;// UART TX (output)
-    TRISBbits.TRISB6=1;// UART RX (input)
+    TRISBbits.TRISB8 = 1; // Button 1 is an input
+   
 
     //PIN MAPPING
     
     //before we map, we need to unlock
     __builtin_write_OSCCONL(OSCCON & 0xbf); // clear bit 6 (unlock, they are usually write protected)
+    
+    RPINR0bits.INT1R = 8; //INT1 mapped to RP8
     
     // PERIPHERAL receives data from which INPUT  
     RPINR18bits.U1RXR = 19; //mapped to RP9 is U1 RX, CHANGE THIS  //TODO: check if this is correct
