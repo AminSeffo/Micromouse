@@ -115,8 +115,8 @@ int main()
     //runEncoderTest(500.0);
     //plotEncoderValuesUART();
     
-    testSpeedControl();
-    
+    // testSpeedControl();
+    testDriveCommands();
     
     for(;;);
     

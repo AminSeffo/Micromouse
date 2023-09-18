@@ -19,10 +19,9 @@ void setupIO()
     TRISBbits.TRISB10 = 0; //LED 2
     TRISBbits.TRISB9 = 0;  //LED 3
 
-    TRISCbits.TRISC4=0;// UART TX (output)
-    TRISCbits.TRISC3=1;// UART RX (input)
+//    TRISCbits.TRISC4=0;// UART TX (output)
+//    TRISCbits.TRISC3=1;// UART RX (input)
     
-//    AD1PCFGLbits.PCFG8 = 0; //pin for button is analog
     
     TRISBbits.TRISB8 = 1; // Button 1 is an input
    
@@ -35,8 +34,8 @@ void setupIO()
     RPINR0bits.INT1R = 8; //INT1 mapped to RP8
     
     // PERIPHERAL receives data from which INPUT  
-    RPINR18bits.U1RXR = 19; //mapped to RP9 is U1 RX, CHANGE THIS  //TODO: check if this is correct
-    RPOR10bits.RP20R = 3;
+    RPINR18bits.U1RXR = 19; //mapped to RP9 is U1 RX,
+    RPOR10bits.RP20R = 3; //RP20 is U1 TX, CHANGE THIS //TODO: check if this is correct
     
     //PERIPHERAL QEA Encoder 1, receives data from RP25
    RPINR14bits.QEA1R = 25; 

@@ -106,12 +106,12 @@ void testSpeedControl(){
     
     for(;;){
         char buffer[16];
-        sprintf(buffer, "%d %d\n\r\0", velocity1, velocity2);
-        putsUART1(buffer);
-        LED1=~LED1;
+        
+        //sprintf(buffer, "%d %d\n\r\0", velocity1, velocity2);
+        // LED1=~LED1;
         
         for(int i = 0; i < 1000; i++){
-            LED3=~LED3;
+            // LED3=~LED3;
             for(int j=0; j<1000; j++);
         }
         // LED3=LEDON;
@@ -119,3 +119,47 @@ void testSpeedControl(){
     
 }
 
+void ledBinary(int number){
+    LED1 = number%2;
+    LED2 = (number/2)%2;
+    LED3 = (number/4)%2;
+}
+
+void testDriveCommands(){
+    setupMotor();
+    setupIO();
+    setupUART1();
+    setupMotorEncoders(0,0);
+    initButton(stopSpeed);
+
+    setMotor1Dir(1);
+    setMotor2Dir(0);
+
+    float speed = 0.05;
+    
+
+    for(;;){
+        int command = mouse_state;
+        ledBinary(command);
+        switch(command){
+            case START:
+                setMotor1Speed(speed);
+                setMotor2Speed(speed);
+                break;
+            case STOP:
+                setMotor1Speed(0);
+                setMotor2Speed(0);
+                break;
+            case LEFT:
+                setMotor1Speed(speed);
+                setMotor2Speed(speed/2);
+                break;
+            case RIGHT:
+                setMotor1Speed(speed/2);
+                setMotor2Speed(speed);
+                break;
+        }
+
+
+    }
+}

@@ -8,7 +8,8 @@
 #ifndef TESTS_H
 #define	TESTS_H
 
-    
+
+
 void runLedTest();
 void runEncoderTest(float pos);
 void plotEncoderValuesUART(void);
@@ -16,6 +17,7 @@ void plotEncoderValuesUART(void);
 void motorFullSpeed();
 void stopSpeed();
 void testSpeedControl();
+void testDriveCommands();
 
 #endif	/* TESTS_H */
 
