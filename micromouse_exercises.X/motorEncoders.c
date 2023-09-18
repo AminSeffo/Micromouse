@@ -2,6 +2,8 @@
 #include <xc.h>
 #include "IOconfig.h"
 #include "motorEncoders.h"
+
+#define T_uc 37.5*1e-9
 //file global
 
 
@@ -10,13 +12,19 @@
  long rotationCount1;
  long rotationCount2;
 //long currentEncoderPosition;
+int velocity1;
+int velocity2;
 
 #include <math.h>
 
 //****************************************************************INITIALISE QEI************************
  void setupMotorEncoders(unsigned int startPos1, unsigned int startPos2){
-     initQEI1(startPos1);
-     initQEI2(startPos2);
+    initQEI1(startPos1);
+    initQEI2(startPos2);
+     
+    initSampleVelocity(10); //sample encoder values every 10ms
+//    
+    startSampleVelocity();
  }
  
  
@@ -42,7 +50,7 @@ void initQEI1( unsigned int  startPos)
     IEC3bits.QEI1IE = 1; // enable interrupt
     IPC14bits.QEI1IP = 5;
 
-  TRISBbits.TRISB0 = 0; // Set RB0 as output for encoder 1
+    TRISBbits.TRISB0 = 0; // Set RB0 as output for encoder 1
 }
 
 void initQEI2( unsigned int  startPos)
@@ -64,7 +72,7 @@ void initQEI2( unsigned int  startPos)
     rotationCount2=0;
     IFS4bits.QEI2IF = 0; // clear interrupt flag
     IEC4bits.QEI2IE = 1; // enable interrupt
-    IPC18bits.QEI2IP = 5;
+    IPC18bits.QEI2IP = 5; 
  
     TRISBbits.TRISB1 = 0; // Set RB1 as output for encoder 2
 }
@@ -167,8 +175,6 @@ int getVelocityInCountsPerSample_2()
 
     oldPosition=currentPosition;
     return velocity;
-
-
 }
 
 float getVelocityInRadPerSecond()
@@ -187,7 +193,39 @@ float getVelocityInRadPerSecond()
 
     oldPosition=currentPosition;
     return velocity;
-
 }
+
+void initSampleVelocity(int periodInMS){
+
+    float desired_period = (periodInMS / 1000.0);
+    desired_period = desired_period / (T_uc * 64);
+
+    //unsigned TimerControlValue;
+    
+    T1CON = 0;              // ensure Timer 1 is in reset state
+    //TimerControlValue=T1CON;
+ 
+    T1CONbits.TCKPS = 0b10; // FCY divide by 64: tick = 2.4us (Tcycle=37.5ns)
+    T1CONbits.TCS = 0;      // select internal FCY clock source
+    T1CONbits.TGATE = 0;    // gated time accumulation disabled
+    TMR1 = 0;
+    PR1 = ceil(desired_period);           // set Timer 1 period register ()
+    IFS0bits.T1IF = 0;      // reset Timer 1 interrupt flag
+    IPC0bits.T1IP = 4;      // set Timer1 interrupt priority level to 4
+    IEC0bits.T1IE = 1;      // enable Timer 1 interrupt
+    T1CONbits.TON = 0;      // leave timer disabled initially
+}
+
+void startSampleVelocity(){
+    T1CONbits.TON = 1; //
+}
+
+void __attribute__((__interrupt__, auto_psv)) _T1Interrupt(void){
+    IFS0bits.T1IF = 0; //clear interrupt flag
+    LED2=~LED2;
+    velocity1=getVelocityInCountsPerSample_1();
+    velocity2=getVelocityInCountsPerSample_2();
+}
+
 
 

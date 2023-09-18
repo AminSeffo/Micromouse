@@ -1,6 +1,10 @@
 #include "tests.h"
 #include "xc.h"
+#include "stdio.h"
 #include "IOconfig.h"
+#include "motorEncoders.h"
+#include "serialComms.h"
+
 
 
 void runLedTest()
@@ -32,5 +36,30 @@ void runEncoderTest(float pos){
 //    if (getPositionInCounts_2()>pos){
 //        LED2 = LEDON;
 //    }
+    
+}
+
+void plotEncoderValuesUART(void){
+    setupIO();
+    setupUART1();
+    setupMotorEncoders(0,0);
+    
+    LED1 = LEDON;
+    LED2 = LEDON;
+    LED3 = LEDON;
+
+    for(;;){
+        char buffer[16];
+        sprintf(buffer, "%d %d\n\r\0", velocity1, velocity2);
+        putsUART1(buffer);
+        LED1=~LED1;
+        
+        for(int i = 0; i < 1000; i++){
+            LED3=~LED3;
+            for(int j=0; j<1000; j++);
+        }
+        // LED3=LEDON;
+    }
+    
     
 }
