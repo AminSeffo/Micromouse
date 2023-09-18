@@ -46,7 +46,7 @@
 /// Include headers-------------------------------
 #include "xc.h"
 #include "IOconfig.h"
-#include "myTimers.h"
+// #include "myTimers.h"
 #include "myPWM.h"
 #include "serialComms.h"
 #include "dma.h"
@@ -111,8 +111,15 @@ int main()
         ; // Wait for PPL to lock
 
     
-    runLedTest();
-    runEncoderTest(500.0);
+    //runLedTest();
+    //runEncoderTest(500.0);
+    plotEncoderValuesUART();
+    
+    
+    
+    
+    for(;;);
+    
 	
 	return 0;
 }

@@ -58,15 +58,15 @@ void startTimer2(void)
 
 
 
-void __attribute__((__interrupt__, auto_psv)) _T1Interrupt(void)
-{
-    static int myCount=0;
- 
-    IFS0bits.T1IF = 0;           // reset Timer 1 interrupt flag 
-    myCount++;
-
-    
-}
+//void __attribute__((__interrupt__, auto_psv)) _T1Interrupt(void)
+//{
+//    static int myCount=0;
+// 
+//    IFS0bits.T1IF = 0;           // reset Timer 1 interrupt flag 
+//    myCount++;
+//
+//    
+//}
 void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void)
  {  
     static int myCount=0;

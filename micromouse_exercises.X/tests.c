@@ -3,72 +3,90 @@
 #include "IOconfig.h"
 #include "dma.h"
 #include "button.h"
+#include "stdio.h"
+#include "motorEncoders.h"
+#include "serialComms.h"
+#include "motor.h"
 
 
 void runLedTest()
 {	
-	setupIO();
+    setupIO();
+    
+    
+	LED1 = LEDON;
 
-	LED1 = LEDOFF;
+    LED2 = LEDOFF;
 
-    LED2 = LEDON;
+    LED3 = LEDON;
+    
+    //for (i = 0; i < 300000; i++); // short dirty delay for changes to take effect,
 
-    LED3 = LEDOFF;
 }
 
 
 void runEncoderTest(float pos){
     setupIO();
-    LED1 = LEDOFF;
-    LED2 = LEDOFF;
+//    LED1 = LEDOFF;
+//    LED2 = LEDOFF;
      
-    if (getPositionInCounts_1()>pos){
-        LED1 = LEDON;
-    }
-    if (getPositionInCounts_2()>pos){
-        LED2 = LEDON;
-    }
+//    if (getPositionInCounts_1()>pos){
+//        LED1 = LEDON;
+//    }
+//    if (getPositionInCounts_2()>pos){
+//        LED2 = LEDON;
+//    }
     
 }
 
-void runSensorTest(){
-    // Check if this output makes sense with debug first ?
+
+
+
+
+void motorFullSpeed(){
+    setupMotor();
+    setMotor1Dir(1);
+    setMotor1Speed(0.2);
+    setMotor2Dir(0);
+    setMotor2Speed(0.2);
+}
+
+
+void plotEncoderValuesUART(void){
     setupIO();
-    LED1 = LEDOFF;
-    LED2 = LEDOFF;
-    LED3 = LEDOFF;
+    setupUART1();
+    setupMotorEncoders(0,0);
+    motorFullSpeed();
+    LED1 = LEDON;
+    LED2 = LEDON;
+    LED3 = LEDON;
+
+    for(;;){
+        char buffer[16];
+        sprintf(buffer, "%d %d\n\r\0", velocity1, velocity2);
+        putsUART1(buffer);
+        LED1=~LED1;
+        
+        for(int i = 0; i < 1000; i++){
+            LED3=~LED3;
+            for(int j=0; j<1000; j++);
+        }
+        // LED3=LEDON;
+    }
+}
+
+void testSpeedControl(){
+    setupMotor();
+    setMotor1Dir(1);
+    setMotor2Dir(0);
+
+    float pControl1 = 1;
+    float pControl2 = 1.95;
+
+    float setpointSpeed = 0.1;
+
+    setMotor1Speed(setpointSpeed*pControl1);
+    setMotor2Speed(setpointSpeed*pControl2); 
     
-    if (SENSOR_FRONT>100){
-        LED1 = LEDON;
-    }
-    if (SENSOR_LEFT>100){
-        LED2 = LEDON;
-    }
-    if (SENSOR_RIGHT>100){
-        LED3 = LEDON;
-    }
 }
-
-void runButtonTest(){
-    setupIO();
-
-    if(BUTTON_STATE == BUTTONON){
-        LED1 = LEDON;
-        LED2 = LEDOFF;
-    }
-    else{
-        LED1=LEDOFF;
-        LED2=LEDON;
-    }
-}
-
-void runButtonPressTest(int buttonHistory){
-    setupIO();
-    if(buttonHistory == BUTTON_STATE){
-        LED3=LEDOFF;
-    }
-}
-
-
-
 
