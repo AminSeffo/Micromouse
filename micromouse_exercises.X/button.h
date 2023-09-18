@@ -18,8 +18,6 @@ void setupButton(void (*f)(float));
 
 #define BUTTON_STATE PORTBbits.RB8;
 
-#define BUTTONON 0;
-#define BUTTONOFF 1;
 
 #endif	/* BUTTON_H */
 
