@@ -111,12 +111,12 @@ int main()
         ; // Wait for PPL to lock
 
     
-//    runLedTest();
+    //runLedTest();
     //runEncoderTest(500.0);
     plotEncoderValuesUART();
-
     
-    moterFullSpeed();
+    
+    
     
     for(;;);
     

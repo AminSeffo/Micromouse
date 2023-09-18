@@ -4,7 +4,6 @@
 #include "IOconfig.h"
 #include "motorEncoders.h"
 #include "serialComms.h"
-
 #include "motor.h"
 
 
@@ -37,12 +36,20 @@ void runEncoderTest(float pos){
 //    }
     
 }
+void motorFullSpeed(){
+    setupMotor();
+    setMotor1Dir(1);
+    setMotor1Speed(0.2);
+    setMotor2Dir(0);
+    setMotor2Speed(0.2);
+}
+
 
 void plotEncoderValuesUART(void){
     setupIO();
     setupUART1();
     setupMotorEncoders(0,0);
-    
+    motorFullSpeed();
     LED1 = LEDON;
     LED2 = LEDON;
     LED3 = LEDON;
@@ -59,13 +66,20 @@ void plotEncoderValuesUART(void){
         }
         // LED3=LEDON;
     }
-    
-    
 }
-void moterFullSpeed(){
+
+void testSpeedControl(){
     setupMotor();
     setMotor1Dir(1);
-    setMotor1Speed(0.2);
     setMotor2Dir(0);
-    setMotor2Speed(0.2);
+
+    float pControl1 = 1;
+    float pControl2 = 1.95;
+
+    float setpointSpeed = 0.1;
+
+    setMotor1Speed(setpointSpeed*pControl1);
+    setMotor2Speed(setpointSpeed*pControl2); 
+    
 }
+
