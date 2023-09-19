@@ -16,6 +16,7 @@
 
 void initSensors();
 
+float convert_sensor_data_to_distance(int sensor_data);
 float get_left_distance_in_m(void);
 float get_right_distance_in_m(void);
 float get_front_distance_in_m(void);

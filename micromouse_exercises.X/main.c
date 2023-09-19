@@ -117,7 +117,8 @@ int main()
     
 //    testSpeedControl();
     
-	plotSensorValues();
+//	plotSensorValues();
+    followLaneController();
     
     for(;;);
     
