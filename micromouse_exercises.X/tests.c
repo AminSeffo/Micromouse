@@ -7,7 +7,7 @@
 #include "motorEncoders.h"
 #include "serialComms.h"
 #include "motor.h"
-
+#include "sensors.h"
 
 void runLedTest()
 {	
@@ -117,5 +117,20 @@ void testSpeedControl(){
         // LED3=LEDON;
     }
     
+}
+
+void plotSensorValues(){
+	setupIO();
+	initSensors();
+	for (;;){
+
+		char buffer[16];
+        sprintf(buffer, "%d %d %d\n\r\0", FRONT_SENSOR_DATA, LEFT_SENSOR_DATA, RIGHT_SENSOR_DATA);
+	
+		for(int i = 0; i < 1000; i++){
+            LED3=~LED3;
+			for(int j=0; j<1000; j++);
+        }
+    }
 }
 

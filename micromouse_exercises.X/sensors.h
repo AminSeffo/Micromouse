@@ -14,6 +14,8 @@
 #define LEFT_SENSOR_DATA DISTANCE_SENSOR2
 #define RIGHT_SENSOR_DATA DISTANCE_SENSOR3
 
+void initSensors();
+
 float get_left_distance_in_m(void);
 float get_right_distance_in_m(void);
 float get_front_distance_in_m(void);
