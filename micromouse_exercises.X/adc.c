@@ -28,6 +28,7 @@ void setupADC1()
     //AD1PCFGL = 0xffff;     //  0b1111 1111 1110 1100 AN0,1 and 4  analog inputs; here you can address multiple channels  
     
     ADPCFGbits.PCFG5=0; // potentiometer is connected AN5 
+    ADPCFGbits.PCFG4=0; // battery voltage is connected AN4
     AD1CON1bits.ADSIDL=0;//no sampling in idle mode
     AD1CON1bits.ADDMABM=1; //DMA channels are written in order of conversion
     AD1CON1bits.AD12B=1;// 12-bit operation
@@ -75,7 +76,7 @@ void setupADC1()
 
 
     //AD1CSSL (input scan select register)
-    AD1CSSL= 0b0000000111000000; //select the analog channel 6,7 and 8 !!!CHANGE HERE!!!, its also important for adcData[x]
+    AD1CSSL= 0b0000000111010000; //select the analog channel 6,7 and 8 !!!CHANGE HERE!!!, its also important for adcData[x]
 
 
     AD1CHS123bits.CH123NA = 0b00; //negative input for S/H 123 is Vref -
