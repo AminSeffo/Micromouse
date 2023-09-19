@@ -121,12 +121,15 @@ void testSpeedControl(){
 
 void plotSensorValues(){
 	setupIO();
+    setupUART1();
 	initSensors();
+    LED3 = LEDON;
+    LED2 =LEDON;
 	for (;;){
 
 		char buffer[16];
         sprintf(buffer, "%d %d %d\n\r\0", FRONT_SENSOR_DATA, LEFT_SENSOR_DATA, RIGHT_SENSOR_DATA);
-	
+        putsUART1(buffer);
 		for(int i = 0; i < 1000; i++){
             LED3=~LED3;
 			for(int j=0; j<1000; j++);

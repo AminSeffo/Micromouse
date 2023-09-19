@@ -4,6 +4,6 @@
 
 void initSensors(){
 	setupADC1();
-	initSensors();
+	initDmaChannel4();
 	startADC1();
 }

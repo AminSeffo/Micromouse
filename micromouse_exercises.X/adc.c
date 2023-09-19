@@ -27,8 +27,11 @@ void setupADC1()
     
     //AD1PCFGL = 0xffff;     //  0b1111 1111 1110 1100 AN0,1 and 4  analog inputs; here you can address multiple channels  
     
-    ADPCFGbits.PCFG5=0; // potentiometer is connected AN5 
+//    ADPCFGbits.PCFG5=0; // potentiometer is connected AN5 
     ADPCFGbits.PCFG4=0; // battery voltage is connected AN4
+    ADPCFGbits.PCFG6 = 0; // sensor is connected to AN6
+    ADPCFGbits.PCFG7 = 0; // sensor is connected to AN7
+    ADPCFGbits.PCFG8 = 0; // sensor is connected to AN8
     AD1CON1bits.ADSIDL=0;//no sampling in idle mode
     AD1CON1bits.ADDMABM=1; //DMA channels are written in order of conversion
     AD1CON1bits.AD12B=1;// 12-bit operation
@@ -59,7 +62,7 @@ void setupADC1()
     AD1CON2bits.CSCNA=1; //enable analog input SCAN on channel 0
     AD1CON2bits.CHPS=0b11; // important for 10 bit mode //unimplemented in 12-bit mode
     //AD1CON2bits.BUFS=x; //indicates which buffer is currently written (only if BUFM=1)
-    AD1CON2bits.SMPI=2;//!!!CHANGE HERE!!! Selects Increment Rate for DMA Addresses bits or number of sample/conversion operations per interrupt
+    AD1CON2bits.SMPI=3;//!!!CHANGE HERE!!! Selects Increment Rate for DMA Addresses bits or number of sample/conversion operations per interrupt
                        // update, now only set  to 1 because we scan 2 channels
     AD1CON2bits.BUFM=0; //always fill buffer starting at address 0x00
     AD1CON2bits.ALTS=0; //always use channel A and do not alternate
@@ -76,7 +79,7 @@ void setupADC1()
 
 
     //AD1CSSL (input scan select register)
-    AD1CSSL= 0b0000000111010000; //select the analog channel 6,7 and 8 !!!CHANGE HERE!!!, its also important for adcData[x]
+    AD1CSSL= 0b0000000111010000; //select the analog channel 4, 6,7 and 8 !!!CHANGE HERE!!!, its also important for adcData[x]
 
 
     AD1CHS123bits.CH123NA = 0b00; //negative input for S/H 123 is Vref -
