@@ -113,11 +113,15 @@ int main()
     
     //runLedTest();
     //runEncoderTest(500.0);
-    //plotEncoderValuesUART();
+//    plotEncoderValuesUART();
     
     //testSpeedControl();
     // testTurning();
     testForward();
+//    testSpeedControl();
+    
+//	plotSensorValues();
+    // followLaneController();
     
     for(;;);
     

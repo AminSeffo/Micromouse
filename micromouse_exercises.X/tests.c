@@ -7,11 +7,9 @@
 #include "motorEncoders.h"
 #include "serialComms.h"
 #include "motor.h"
-#include "control.h"
 #include "drive.h"
-
-
-
+#include "sensors.h"
+#include "control.h"
 
 void runLedTest()
 {	
@@ -127,3 +125,51 @@ void testSpeedControl(){
 void testForward(){
     driveCells(2);
 }
+void plotSensorValues(){
+	setupIO();
+    setupUART1();
+	initSensors();
+    LED3 = LEDON;
+    LED2 =LEDON;
+	for (;;){
+
+		char buffer[16];
+        sprintf(buffer, "%d %d %d\n\r\0", FRONT_SENSOR_DATA, LEFT_SENSOR_DATA, RIGHT_SENSOR_DATA);
+        putsUART1(buffer);
+		for(int i = 0; i < 1000; i++){
+            LED3=~LED3;
+			for(int j=0; j<1000; j++);
+        }
+    }
+}
+
+void followLaneController(){
+    setupIO();
+    setupUART1();
+    initSensors();
+    setupMotor();
+    setupMotorEncoders(0,0);
+    initButton(stopSpeed);
+    setMotor1Dir(1);
+    setMotor2Dir(0);
+
+    setMotor2Speed(0.1);
+    setMotor1Speed(0.1);
+
+    PIControl contoller;
+    PIControl_Init(&contoller, 5.0, 1.0, 0.1);
+
+    
+    for(;;){
+        float signal = pi_control(&contoller, get_right_distance_in_m(),get_left_distance_in_m());
+        float newspeed1 = (signal/2+1)*0.05;
+        float newspeed2 = (1-signal/2)*0.05;
+        setMotor2Speed(newspeed1);
+        setMotor1Speed(newspeed2);
+
+        char buffer[16];
+        sprintf(buffer, "%.2f %.2f %.2f\n\r\0", signal, get_right_distance_in_m(), get_left_distance_in_m());
+        putsUART1(buffer);
+    }
+}   
+

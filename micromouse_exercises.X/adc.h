@@ -22,11 +22,5 @@ void startADC1(void);
 
 
 
-
-
-
-
-
-
 #endif	/* ADC_H */
 

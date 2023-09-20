@@ -19,6 +19,7 @@ void motorFullSpeed();
 void stopSpeed();
 void testSpeedControl();
 void testForward();
+void plotSensorValues();
 
 #endif	/* TESTS_H */
 
