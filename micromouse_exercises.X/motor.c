@@ -31,8 +31,8 @@ void setupMotor()
     // Default direction forward
     P1OVDCONbits.POVD1H = 1;
     P1OVDCONbits.POVD1L = 0;
-    P1OVDCONbits.POVD2H = 1;
-    P1OVDCONbits.POVD2L = 0;
+    P1OVDCONbits.POVD2H = 0;
+    P1OVDCONbits.POVD2L = 1;
 
     P1TCONbits.PTEN = 1; // Switch on PWM generator
     P1DC1 = 0;
@@ -40,13 +40,32 @@ void setupMotor()
     P1DC3 = 0;
 }
 
+void setMotorBreak(void){
+    P1OVDCONbits.POVD1H = 1;
+    P1OVDCONbits.POVD1L = 1;
+    P1OVDCONbits.POVD2H = 1;
+    P1OVDCONbits.POVD2L = 1;
+    
+    P1OVDCONbits.POUT1H = 1;
+    P1OVDCONbits.POUT1L = 1;
+    P1OVDCONbits.POUT2H = 1;
+    P1OVDCONbits.POUT2L = 1;
+}
+
+void unsetMotorBreak(void){
+    P1OVDCONbits.POUT1H = 0;
+    P1OVDCONbits.POUT1L = 0;
+    P1OVDCONbits.POUT2H = 0;
+    P1OVDCONbits.POUT2L = 0;
+}
+
 void setMotor1Dir(int fwd){
     P1OVDCONbits.POVD1H = fwd != 0;
     P1OVDCONbits.POVD1L = fwd == 0;
 }
 void setMotor2Dir(int fwd){
-    P1OVDCONbits.POVD2H = fwd != 0;
-    P1OVDCONbits.POVD2L = fwd == 0;
+    P1OVDCONbits.POVD2H = fwd == 0;
+    P1OVDCONbits.POVD2L = fwd != 0;
 }
 
 void setMotor1Speed(float speed){
@@ -56,6 +75,8 @@ void setMotor1Speed(float speed){
 
     if (speed<0.0)
         speed=0.0;
+    
+    speed = speed *1.075;
     P1DC1 = speed*MYPWM_MAX* 0.6;
 
 }

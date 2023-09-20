@@ -7,6 +7,8 @@
 
 #define MYPWM_MAX (2*26666L)
 void setupMotor();
+void setMotorBreak(void);
+void unsetMotorBreak(void);
 void setMotor1Dir(int fwd);
 void setMotor2Dir(int fwd);
 

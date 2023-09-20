@@ -7,6 +7,10 @@
 #include "motorEncoders.h"
 #include "serialComms.h"
 #include "motor.h"
+#include "control.h"
+#include "drive.h"
+
+
 
 
 void runLedTest()
@@ -119,3 +123,7 @@ void testSpeedControl(){
     
 }
 
+
+void testForward(){
+    driveCells(2);
+}
