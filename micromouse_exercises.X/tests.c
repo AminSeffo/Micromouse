@@ -123,7 +123,7 @@ void testSpeedControl(){
 
 
 void testForward(){
-    driveCells(2);
+    driveCells(5);
 }
 void plotSensorValues(){
 	setupIO();
@@ -161,14 +161,14 @@ void followLaneController(){
 
     
     for(;;){
-        float signal = pi_control(&contoller, get_right_distance_in_m(),get_left_distance_in_m());
+        float signal = pi_control(&contoller, get_right_distance_in_cm(),get_left_distance_in_cm());
         float newspeed1 = (signal/2+1)*0.05;
         float newspeed2 = (1-signal/2)*0.05;
         setMotor2Speed(newspeed1);
         setMotor1Speed(newspeed2);
 
         char buffer[16];
-        sprintf(buffer, "%.2f %.2f %.2f\n\r\0", signal, get_right_distance_in_m(), get_left_distance_in_m());
+        sprintf(buffer, "%.2f %.2f %.2f\n\r\0", signal, get_right_distance_in_cm(), get_left_distance_in_cm());
         putsUART1(buffer);
     }
 }   

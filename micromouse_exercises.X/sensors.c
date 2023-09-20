@@ -14,15 +14,15 @@ float convert_sensor_data_to_distance(int sensor_data){
 	return distance;
 }
 
-float get_front_distance_in_m(){
+float get_front_distance_in_cm(){
 	return convert_sensor_data_to_distance(FRONT_SENSOR_DATA);
 }
 
-float get_left_distance_in_m(){
+float get_left_distance_in_cm(){
 	return convert_sensor_data_to_distance(LEFT_SENSOR_DATA);
 }
 
-float get_right_distance_in_m(){
+float get_right_distance_in_cm(){
 	return convert_sensor_data_to_distance(RIGHT_SENSOR_DATA);
 }
 
