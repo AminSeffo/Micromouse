@@ -16,6 +16,7 @@
       <itemPath>serialComms.h</itemPath>
       <itemPath>led.h</itemPath>
       <itemPath>button.h</itemPath>
+      <itemPath>sensors.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -37,6 +38,7 @@
       <itemPath>serialComms.c</itemPath>
       <itemPath>led.c</itemPath>
       <itemPath>button.c</itemPath>
+      <itemPath>sensors.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

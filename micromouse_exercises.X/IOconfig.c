@@ -25,7 +25,7 @@ void setupIO()
 //    AD1PCFGLbits.PCFG8 = 0; //pin for button is analog
     
     TRISBbits.TRISB8 = 1; // Button 1 is an input
-   
+    
 
     //PIN MAPPING
     
