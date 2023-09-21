@@ -138,6 +138,24 @@ void plotSensorValues(){
     }
 }
 
+void plotBatteryVoltage(){
+    setupIO();
+    setupUART1();
+    initSensors();
+    LED3 = LEDON;
+    LED2 =LEDON;
+    for (;;){
+
+        char buffer[16];
+        sprintf(buffer, "%d\n\r\0", getBatteryVoltage(BATTERY_SENSOR_DATA));
+        putsUART1(buffer);
+        for(int i = 0; i < 1000; i++){
+            LED3=~LED3;
+            for(int j=0; j<1000; j++);
+        }
+    }
+}
+
 void followLaneController(){
     setupIO();
     setupUART1();
