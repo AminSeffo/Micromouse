@@ -48,9 +48,9 @@ void runEncoderTest(float pos){
 void motorFullSpeed(){
     setupMotor();
     setMotor1Dir(1);
-    setMotor1Speed(0.2);
-    setMotor2Dir(0);
-    setMotor2Speed(0.2);
+    setMotor1Speed(1.0);
+    setMotor2Dir(1);
+    setMotor2Speed(1.0);
 }
 
 
@@ -173,3 +173,24 @@ void followLaneController(){
     }
 }   
 
+void speedControllerTest(){
+    setupIO();
+    setupUART1();
+    setupMotor();
+    setupMotorEncoders(0,0);
+    setupMotorSpeedController();
+    
+    setLeftMotorSpeed(0.5);
+    setRightMotorSpeed(0.5);
+    
+    for(;;){
+        char buffer[16];
+        sprintf(buffer, "%d %d\n\r\0", velocity1, velocity2);
+        putsUART1(buffer);
+        
+        for(int i = 0; i < 1000; i++){
+            for(int j=0; j<1000; j++);
+        }
+    }
+    
+}

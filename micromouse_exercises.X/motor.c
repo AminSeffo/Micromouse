@@ -4,6 +4,17 @@
 
 #include "motor.h"
 #include <xc.h>
+#include "config.h"
+#include "control.h"
+#include "motorEncoders.h"
+#include "math.h"
+
+
+PIControl leftSpeedContoller;
+PIControl rightSpeedContoller;
+
+int leftMotorSpeed = 0;
+int rightMotorSpeed = 0;
 
 void setupMotor()
 {
@@ -76,7 +87,7 @@ void setMotor1Speed(float speed){
     if (speed<0.0)
         speed=0.0;
     
-    speed = speed *1.075;
+    speed = speed; // *1.075;
     P1DC1 = speed*MYPWM_MAX* 0.6;
 
 }
@@ -91,3 +102,91 @@ void setMotor2Speed(float speed){
     P1DC2 = speed*MYPWM_MAX* 0.6;
 }
 
+void setLeftMotorSpeed(float speed){
+    if (speed>1.0)
+        speed=1.0;
+
+    if (speed<-1.0)
+        speed=-1.0;
+    leftMotorSpeed = speed * MOTOR_MAX_SPEED;
+    
+}
+
+void setRightMotorSpeed(float speed){
+    if (speed>1.0)
+        speed=1.0;
+
+    if (speed<-1.0)
+        speed=-1.0;
+    rightMotorSpeed = speed * MOTOR_MAX_SPEED;
+}
+
+void setupMotorSpeedController(){
+    
+    PIControl_Init(&leftSpeedContoller, 0.0083, 0.0005, 0);
+    PIControl_Init(&rightSpeedContoller, 0.01, 0.005, 0);
+    
+    setupSpeedControllerTimer(MOTOR_SPEED_CONTROL_INT_IN_MS);
+    
+    startSpeedControllerTimer();
+    
+}
+
+void controlLeftMotorSpeed(){
+    if(leftMotorSpeed == 0){
+        setMotor2Speed(0);
+        return;
+    }
+    float speed = pi_control(&leftSpeedContoller, leftMotorSpeed, velocity2);
+    
+    setMotor2Dir(speed > 0);
+    setMotor2Speed(fabs(speed));
+  
+    
+}
+
+void controlRightMotorSpeed(){
+    if(rightMotorSpeed == 0){
+        setMotor1Speed(0);
+        return;
+    }
+    float speed = pi_control(&rightSpeedContoller, rightMotorSpeed, velocity1);
+    
+    setMotor1Dir(speed > 0);
+    setMotor1Speed(fabs(speed));
+}
+
+void controlMotorSpeed(){
+    controlLeftMotorSpeed();
+    controlRightMotorSpeed();
+}
+
+void setupSpeedControllerTimer(int periodInMS){
+
+    float desired_period = (periodInMS / 1000.0);
+    desired_period = desired_period / (T_uc * 64);
+
+    //unsigned TimerControlValue;
+
+    T2CON = 0;              // ensure Timer 1 is in reset state
+    //TimerControlValue=T1CON;
+
+    T2CONbits.TCKPS = 0b10; // FCY divide by 64: tick = 2.4us (Tcycle=37.5ns)
+    T2CONbits.TCS = 0;      // select internal FCY clock source
+    T2CONbits.TGATE = 0;    // gated time accumulation disabled
+    TMR2 = 0;
+    PR2 = ceil(desired_period);           // set Timer 1 period register ()
+    IFS0bits.T2IF = 0;      // reset Timer 1 interrupt flag
+    IPC1bits.T2IP = 4;      // set Timer1 interrupt priority level to 4
+    IEC0bits.T2IE = 1;      // enable Timer 1 interrupt
+    T2CONbits.TON = 0;      // leave timer disabled initially
+}
+
+void startSpeedControllerTimer(){
+    T2CONbits.TON = 1;
+}
+
+void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void){
+    IFS0bits.T2IF = 0; //clear interrupt flag
+    controlMotorSpeed();
+}
