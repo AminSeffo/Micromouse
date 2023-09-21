@@ -26,3 +26,11 @@ float get_right_distance_in_m(){
 	return convert_sensor_data_to_distance(RIGHT_SENSOR_DATA);
 }
 
+float getBatteryVoltage(int adcValue)
+{
+    //read the voltage from voltage divider
+    float voltage = (float)adcValue * ADC_REFERENCE_VOLTAGE / 4095.0;
+    //calculate the battery voltage
+    float batteryVoltage = (voltage * (BATTERY_DIVIDER_R1 + BATTERY_DIVIDER_R2)) / BATTERY_DIVIDER_R2;
+    return batteryVoltage;
+} 
