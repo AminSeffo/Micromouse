@@ -17,6 +17,7 @@ void motorFullSpeed();
 void stopSpeed();
 void testSpeedControl();
 void plotSensorValues();
+void plotBatteryVoltage();
 
 #endif	/* TESTS_H */
 
