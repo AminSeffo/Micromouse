@@ -165,6 +165,7 @@ void followLaneController(){
         char buffer[16];
         sprintf(buffer, "%.2f %.2f %.2f\n\r\0", signal, get_right_distance_in_m(), get_left_distance_in_m());
         putsUART1(buffer);
+        //
     }
 }   
 
