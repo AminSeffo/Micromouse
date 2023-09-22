@@ -17,12 +17,10 @@ void initDmaChannel4(void);
 
 //add some defines to make accessing data more readable
 
-#define IO_1 adcData[0] //AN0
-#define TEST_SENSOR adcData[1]  //AN5
-
-
-
-
+#define BATTERY_VOLTAGE adcData[0]  //AN4
+#define DISTANCE_SENSOR1 adcData[1] //AN6
+#define DISTANCE_SENSOR2 adcData[2] //AN7
+#define DISTANCE_SENSOR3 adcData[3] //AN8
 
 #endif	/* DMA_H */
 

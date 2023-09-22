@@ -24,7 +24,7 @@ void setupIO()
     
     
     TRISBbits.TRISB8 = 1; // Button 1 is an input
-   
+    
 
     //PIN MAPPING
     

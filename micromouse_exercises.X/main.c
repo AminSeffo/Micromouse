@@ -111,12 +111,24 @@ int main()
         ; // Wait for PPL to lock
 
     
+    //speedControllerTest();
     //runLedTest();
     //runEncoderTest(500.0);
     //plotEncoderValuesUART();
     
     // testSpeedControl();
-    testDriveCommands();
+    //testDriveCommands();
+    //testSpeedControl();
+    // testTurning();
+    //testForward();
+//    testSpeedControl();
+    
+//	plotSensorValues();
+    // followLaneController();
+    
+    //lineFollowTest();
+    //driveDistanceTest();
+    rotationTest();
     
     for(;;);
     
