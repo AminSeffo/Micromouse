@@ -20,6 +20,8 @@ void stopSpeed();
 void testSpeedControl();
 void testForward();
 void plotSensorValues();
+void lineFollowTest();
+void driveDistanceTest();
 
 #endif	/* TESTS_H */
 

@@ -124,7 +124,7 @@ void setRightMotorSpeed(float speed){
 void setupMotorSpeedController(){
     
     PIControl_Init(&leftSpeedContoller, 0.0083, 0.0005, 0);
-    PIControl_Init(&rightSpeedContoller, 0.01, 0.005, 0);
+    PIControl_Init(&rightSpeedContoller, 0.01, 0.0015, 0);
     
     setupSpeedControllerTimer(MOTOR_SPEED_CONTROL_INT_IN_MS);
     
@@ -184,6 +184,11 @@ void setupSpeedControllerTimer(int periodInMS){
 
 void startSpeedControllerTimer(){
     T2CONbits.TON = 1;
+}
+
+void motorStop(){
+    setLeftMotorSpeed(0);
+    setRightMotorSpeed(0);
 }
 
 void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void){

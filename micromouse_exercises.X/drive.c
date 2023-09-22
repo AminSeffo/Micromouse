@@ -7,6 +7,12 @@
 #include "serialComms.h"
 #include "sensors.h"
 #include "math.h"
+#include "config.h"
+
+#include "drive.h"
+
+
+PIControl lineController;
 
 
 void controlLine(PIControl *controller, float speed){
@@ -79,6 +85,112 @@ void driveDistance(float distanceCM){
     setMotorBreak();
 }
 
+void stopDrive(){
+    motorStop();
+    while(velocity1 || velocity2);
+}
+
+void rotateDegree(float deg) {
+    float distanceCM = deg/360.0 * WHEEL_DISTANCE_CM * M_PI;
+    
+    long ticks = distanceCM * (TICKS_PER_WHEELROTATION/(WHEEL_DIAMETER*M_PI));
+    long goal = getPositionInCounts_2() + ticks;
+    
+    if (deg > 0) {
+        setLeftMotorSpeed(MOTOR_SPEED);
+        setRightMotorSpeed(-MOTOR_SPEED);
+        
+        while (getPositionInCounts_2() < goal);
+    }
+    if (deg < 0) {
+        setLeftMotorSpeed(-MOTOR_SPEED);
+        setRightMotorSpeed(MOTOR_SPEED);
+        
+        while (getPositionInCounts_2() > goal);
+    }
+    
+    stopDrive();   
+}
+
+void newDriveDistance(float distanceCM){
+    long ticks = distanceCM * (TICKS_PER_WHEELROTATION/(WHEEL_DIAMETER*M_PI));
+    long goal = getPositionInCounts_2() + ticks;
+    
+    startLineController();
+    while(getPositionInCounts_2() < goal);
+    
+    stopLineController();
+    stopDrive();
+}
+
 void driveCells(int nrCells){
     driveDistance(nrCells*18);
+}
+
+void setupLineFollowController(){
+    
+    PIControl_Init(&lineController, 0.13, 0.001, 0);
+    
+    setupLineControllerTimer(LINE_FOLLOW_CONTROL_INT_IN_MS);
+        
+}
+
+void lineFollowCotroller(){
+    float rightD = get_right_distance_in_cm();
+    float leftD = get_left_distance_in_cm();
+    
+    if (leftD > THRESHOLD_NO_WALL || rightD > THRESHOLD_NO_WALL) {
+        setLeftMotorSpeed(MOTOR_SPEED);
+        setRightMotorSpeed(MOTOR_SPEED);
+        
+        return;
+    }
+    
+    float signal = pi_control(&lineController, 0.0, rightD-leftD);
+    
+    if (signal>0){
+        setLeftMotorSpeed(MOTOR_SPEED * (1-0.5*signal));
+        setRightMotorSpeed(MOTOR_SPEED);
+    }
+    else {
+        setLeftMotorSpeed(MOTOR_SPEED);
+        setRightMotorSpeed(MOTOR_SPEED * (1-0.5*-signal));
+    }
+    
+    
+}
+
+
+void setupLineControllerTimer(int periodInMS){
+
+    float desired_period = (periodInMS / 1000.0);
+    desired_period = desired_period / (T_uc * 64);
+
+    //unsigned TimerControlValue;
+
+    T3CON = 0;              // ensure Timer 3 is in reset state
+    //TimerControlValue=T1CON;
+
+    T3CONbits.TCKPS = 0b10; // FCY divide by 64: tick = 2.4us (Tcycle=37.5ns)
+    T3CONbits.TCS = 0;      // select internal FCY clock source
+    T3CONbits.TGATE = 0;    // gated time accumulation disabled
+    TMR3 = 0;
+    PR3 = ceil(desired_period);           // set Timer 3 period register ()
+    IFS0bits.T3IF = 0;      // reset Timer 3 interrupt flag
+    IPC2bits.T3IP = 4;      // set Timer3 interrupt priority level to 4
+    IEC0bits.T3IE = 1;      // enable Timer 3 interrupt
+    T3CONbits.TON = 0;      // leave timer disabled initially
+}
+
+void startLineController(){
+    T3CONbits.TON = 1;
+}
+
+void stopLineController(){
+    T3CONbits.TON = 0;
+}
+
+void __attribute__((__interrupt__, auto_psv)) _T3Interrupt(void){
+    IFS0bits.T3IF = 0; //clear interrupt flag
+    lineFollowCotroller();
 }

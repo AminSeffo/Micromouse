@@ -11,6 +11,11 @@ void initSensors(){
 
 float convert_sensor_data_to_distance(int sensor_data){
 	float distance = pow(sensor_data/5743.9,(-1/0.958));
+    
+    if (distance < 2)
+        distance = 2;
+    else if (distance > 14)
+        distance = 14;
 	return distance;
 }
 

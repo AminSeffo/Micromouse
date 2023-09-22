@@ -19,6 +19,7 @@ void setMotor2Speed(float speed);
 
 void setLeftMotorSpeed(float speed);
 void setRightMotorSpeed(float speed);
+void motorStop();
 
 void setupMotorSpeedController();
 

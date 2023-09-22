@@ -9,9 +9,21 @@
 #define	DRIVE_H
 
 
-void controlPosition(long pos, long encoderValue, PIControl *controller);
+void controlPosition(long pos, long encoderValue, PIControl *posController, PIControl *pathController);
 void driveDistance(float distanceCM);
 void driveCells(int nrCells);
+
+void stopDrive();
+void rotateDegree(float deg);
+void newDriveDistance(float distanceCM);
+
+void setupLineFollowController();
+void lineFollowCotroller();
+void setupLineControllerTimer(int periodInMS);
+void startLineController();
+void stopLineController();
+
+
 
 #endif	/* DRIVE_H */
 
