@@ -33,10 +33,11 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
-#define START 0
-#define STOP 1
+#define STOP 0
+#define START 1
 #define LEFT 2
 #define RIGHT 3    
+
 
 extern int mouse_state;
 

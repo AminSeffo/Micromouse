@@ -316,3 +316,40 @@ void rotationTest(){
     }
 }
 
+void mouseCtrlTest(){
+    setupIO();
+    setupUART1();
+    setupMotor();
+    initSensors();
+    setupMotorEncoders(0, 0);
+    setupMotorSpeedController();
+    setupLineFollowController();
+    
+    for(;;){
+        if (mouse_state){
+            char buffer[64];
+            sprintf(buffer, "%d\n\r\0", mouse_state );
+
+            putsUART1(buffer);
+        }
+        
+        switch(mouse_state){
+            case START:
+                mouse_state = STOP;
+                newDriveDistance(17.5);
+                break;
+            case STOP:
+              
+                break;
+            case LEFT:
+                mouse_state = STOP;
+                rotateDegree(-90);
+                break;
+            case RIGHT:
+                mouse_state = STOP;
+                rotateDegree(90);
+                break;
+        }
+    }
+}
+

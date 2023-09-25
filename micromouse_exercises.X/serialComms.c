@@ -16,7 +16,7 @@
  * choose 173 (factor 6)
 */
 
-int mouse_state;
+int mouse_state = STOP;
 
 
 void setupUART1(void)

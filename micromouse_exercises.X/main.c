@@ -128,7 +128,8 @@ int main()
     
     //lineFollowTest();
     //driveDistanceTest();
-    rotationTest();
+    //rotationTest();
+    mouseCtrlTest();
     
     for(;;);
     
