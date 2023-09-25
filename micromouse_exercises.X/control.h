@@ -20,9 +20,11 @@ typedef struct {
 } PIControl;
 
 void PIControl_Init(PIControl* control, float kp, float ki, float setpoint);
+void resetControl(PIControl* controller);
 float PIControl_Update(PIControl* control, float measured_value);
 float p_control(PIControl* control, long pos, long measure);
 float pi_control(PIControl* controller, float pos, float measure);
 float fpi_control(PIControl* controller, float pos, float measure);
+
 
 #endif /* CONTROL_H */

@@ -267,7 +267,7 @@ void rotationTest(){
     
     setupLineFollowController();
     while(1){
-        newDriveDistance(18.0 * 5);
-        rotateDegree(90);
+        newDriveDistance(18.0 * 5-1);
+        rotateDegree(90-10);
     }
 }

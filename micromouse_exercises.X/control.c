@@ -7,6 +7,10 @@ void PIControl_Init(PIControl* controller, float kp, float ki, float setpoint) {
     controller->integral = 0.0f; 
 }
 
+void resetControl(PIControl* controller) {
+    controller->integral = 0.0f; 
+}
+
 float output_limiter(float signal, float max, float min){
     if(signal > max){
         signal = max;
