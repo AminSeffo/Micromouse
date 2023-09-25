@@ -6,11 +6,29 @@
 #define MICROMOUSE_MOTOR_H
 
 #define MYPWM_MAX (2*26666L)
+
 void setupMotor();
+void setMotorBreak(void);
+void unsetMotorBreak(void);
 void setMotor1Dir(int fwd);
 void setMotor2Dir(int fwd);
 
 void setMotor1Speed(float speed);
 void setMotor2Speed(float speed);
+
+
+void setLeftMotorSpeed(float speed);
+void setRightMotorSpeed(float speed);
+void motorStop();
+
+void setupMotorSpeedController();
+
+void controlLeftMotorSpeed();
+void controlRightMotorSpeed();
+
+void controlMotorSpeed();
+
+void startSpeedControllerTimer();
+void setupSpeedControllerTimer(int periodInMS);
 
 #endif //MICROMOUSE_MOTOR_H

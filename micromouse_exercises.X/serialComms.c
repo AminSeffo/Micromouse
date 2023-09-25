@@ -15,6 +15,10 @@
  * for standard communication speed of 9600 kbit/s
  * choose 173 (factor 6)
 */
+
+int mouse_state = STOP;
+
+
 void setupUART1(void)
 {
 	U1MODEbits.UARTEN=0; //switch the uart off during set-up
@@ -33,9 +37,9 @@ void setupUART1(void)
 	IFS0bits.U1TXIF=0; //reset the transmission interrupt flag
     
 	IPC2bits.U1RXIP=3; //set the RX interrupt priority
-	IPC3bits.U1TXIP=5; //set the TX interrupt priority
+	IPC3bits.U1TXIP=4; //set the TX interrupt priority
 
-	U1STAbits.URXISEL=0; //generate a receive interrupt as soon as a character has arrived
+	U1STAbits.URXISEL=1; //generate a receive interrupt as soon as a character has arrived
 	U1STAbits.UTXEN=1; //enable the transmission of data
 
 	IEC0bits.U1RXIE=1; //enable the receive interrupt
@@ -45,12 +49,11 @@ void setupUART1(void)
 	U1MODEbits.UARTEN=1; //switch the uart on
 
   	U1STAbits.UTXEN=1; //enable transmission
-	
-    
-//   	U1MODE = 0x8000; /* Reset UART to 8-n-1, alt pins, and enable */
-//	U1STA  = 0x0440; /* Reset status register and enable TX & RX*/
 
 	
+    
+//  U1MODE = 0x8000; /* Reset UART to 8-n-1, alt pins, and enable */
+//	U1STA  = 0x0440; /* Reset status register and enable TX & RX*/
 	
 }
 
@@ -63,20 +66,33 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void)
 	/**Set the UART2 receiving interrupt flag to zero*/
  
 	IFS0bits.U1RXIF=0;
-	
-
-
+	LED3 = ~LED3;
 	
 	//we should now read out the data
 	rxData=U1RXREG;
     
     //and copy it back out to UART
-    //U1TXREG=rxData;
+    U1TXREG=rxData;
+	switch(rxData){
+		case 's':
+			mouse_state = STOP;
+			break;
+		case 'w':
+			mouse_state = START;
+			break;
+		case 'a':
+			mouse_state = LEFT;
+			break;
+		case 'd':
+			mouse_state = RIGHT;
+			break;
+	}
         //wait until the character is gone...
 
 	//we should also clear the overflow bit if it has been set (i.e. if we were to slow to read out the fifo)
 	U1STAbits.OERR=0; //we reset it all the time
 	//some notes on this from the data sheet
+
 	/*
 	If the FIFO is full (four characters) and a fifth character is fully received into the UxRSR register,
 	the overrun error bit, OERR (UxSTA<1>), will be set. The word in UxRSR will be kept, but further
@@ -89,6 +105,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void)
 	The data in the receive FIFO should be read prior to clearing the OERR bit. The
 	FIFO is reset when OERR is cleared, which causes all data in the buffer to be lost.
 	*/
+    LED3 =~ LED3;
 }
 void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void)
 {	
@@ -97,7 +114,7 @@ void __attribute__((interrupt, no_auto_psv)) _U1TXInterrupt(void)
 	/**Set the UART2 receiving interrupt flag to zero*/
  
 	IFS0bits.U1TXIF=0;
-   // LED7=0;//;
+   
 }
 
 
