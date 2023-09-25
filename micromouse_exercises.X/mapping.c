@@ -2,6 +2,7 @@
 #include "mapping.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "config.h"
 
 
 #define MAP_SIZE 6
@@ -11,12 +12,6 @@
 #define UNKNOWN 0
 #define OPEN 1
 #define CLOSED 2
-
-//NEIGHBORS and ORIENTATION
-#define RIGHT 0
-#define TOP 1
-#define LEFT 2
-#define BOTTOM 3
 
 Cell map[MAP_SIZE][MAP_SIZE];
 
@@ -234,38 +229,134 @@ void floodfill(Position pos){
         }
     }
 }
-
-void goToNeighbor(direction){
+void turnToDirection(int direction){
+    int diff = direction - mousePos.orientation;
+    if (diff == 1 || diff == -3){
+        //turn right
+        rotateDegree(90.0);
+    }else if (diff == -1 || diff == 3){
+        //turn left
+        rotateDegree(-90.0);
+    }else if (diff == 2 || diff == -2){
+        //turn around
+        rotateDegree(180.0);
+    }
+    mousePos.orientation = direction;
+}
+void goToNeighbor(int direction){
     //check if we are facing the right direction
     if (mousePos.orientation != direction){
         //turn to the right direction
         turnToDirection(direction);
     }
     //move forward
+    newDriveDistance(CELL_SIZE);
+    //update mouse position
+    mousePos.pos = getNextPosition(mousePos.pos, direction);
+}
+
+void updateMap(){
+    //check for walls
+    //depending on mouse orientation
+    if(mousePos.orientation==TOP){
+        //check for walls to the top and right
+        if (get_front_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x][mousePos.pos.y].topWall = CLOSED;
+        }else{
+            map[mousePos.pos.x][mousePos.pos.y].topWall = OPEN;
+        }
+        if (get_right_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x][mousePos.pos.y].rightWall = CLOSED;
+        }else{
+            map[mousePos.pos.x][mousePos.pos.y].rightWall = OPEN;
+        }
+        if (get_left_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = CLOSED;
+        }else{
+            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = OPEN;
+        }
+        //bottom wall is open
+        if (mousePos.pos.y != 0){
+            map[mousePos.pos.x][mousePos.pos.y-1].topWall = OPEN;
+        }
+    }
+
+    if(mousePos.orientation ==RIGHT){
+        if(get_front_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x][mousePos.pos.y].rightWall = CLOSED;
+        }else{
+            map[mousePos.pos.x][mousePos.pos.y].rightWall = OPEN;
+        }
+        if(get_right_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x][mousePos.pos.y-1].topWall = CLOSED;
+        }else{
+            map[mousePos.pos.x][mousePos.pos.y-1].topWall = OPEN;
+        }
+        if(get_left_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x][mousePos.pos.y].topWall = CLOSED;
+        }else{
+            map[mousePos.pos.x][mousePos.pos.y].topWall = OPEN;
+        }
+        map[mousePos.pos.x-1][mousePos.pos.y].rightWall = OPEN;
+    }
+
+    if(mousePos.orientation == LEFT){
+        if(get_front_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = CLOSED;
+        }else{
+            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = OPEN;
+        }
+        if(get_right_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x][mousePos.pos.y].topWall = CLOSED;
+        }else{
+            map[mousePos.pos.x][mousePos.pos.y].topWall = OPEN;
+        }
+        if(get_left_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x][mousePos.pos.y-1].topWall = CLOSED;
+        }else{
+            map[mousePos.pos.x][mousePos.pos.y-1].topWall = OPEN;
+        }
+        map[mousePos.pos.x][mousePos.pos.y].rightWall = OPEN;
+    }
+
+    if(mousePos.orientation == BOTTOM){
+        if(get_front_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x][mousePos.pos.y-1].topWall = CLOSED;
+        }else{
+            map[mousePos.pos.x][mousePos.pos.y-1].topWall = OPEN;
+        }
+        if(get_right_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = CLOSED;
+        }else{
+            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = OPEN;
+        }
+        if(get_left_distance_in_cm() < THRESHOLD_NO_WALL){
+            map[mousePos.pos.x][mousePos.pos.y].rightWall = CLOSED;
+        }else{
+            map[mousePos.pos.x][mousePos.pos.y].rightWall = OPEN;
+        }
+        map[mousePos.pos.x][mousePos.pos.y].topWall = OPEN;
+    }
+    
     
 }
 
 void runMapping(){
     initMapping();
     initMousePos();
-    Position pos = {0,0};
     
     //while there is a cell with lower value than current cell go there
-    while (map[pos.x][pos.y].value > 0){
+    while (map[mousePos.pos.x][mousePos.pos.y].value > 0){
+        //update cell Walls
+
         //check if there is a neighbor with lower value
-        int direction = minNeighbor(pos);
+        int direction = minNeighbor(mousePos.pos);
         if (direction != -1){
             //go to neighbor
             goToNeighbor(direction);
         }else{
             //there is nowhere to go, do floodfill
-            floodfill(pos);
+            floodfill(mousePos.pos);
         }
     }
-
-    
-    //if there is no cell with lower value do floodfill until queue is empty
-    
-    Position oldPos = pos;
-    
 }

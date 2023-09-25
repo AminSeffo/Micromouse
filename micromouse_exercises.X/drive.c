@@ -124,7 +124,7 @@ void newDriveDistance(float distanceCM){
 }
 
 void driveCells(int nrCells){
-    driveDistance(nrCells*18);
+    newDriveDistance(nrCells*18.0);
 }
 
 void setupLineFollowController(){
