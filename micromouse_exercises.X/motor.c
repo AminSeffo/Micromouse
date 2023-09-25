@@ -8,7 +8,8 @@
 #include "control.h"
 #include "motorEncoders.h"
 #include "math.h"
-
+#include "serialComms.h"
+#include "stdio.h"
 
 PIControl leftSpeedContoller;
 PIControl rightSpeedContoller;
@@ -89,7 +90,7 @@ void setMotor1Speed(float speed){
     
     speed = speed; // *1.075;
     P1DC1 = speed*MYPWM_MAX* 0.6;
-
+   
 }
 void setMotor2Speed(float speed){
     //this function sets the duty cycle of PWM1 H2 and L2
@@ -138,6 +139,7 @@ void controlLeftMotorSpeed(){
         return;
     }
     float speed = pi_control(&leftSpeedContoller, leftMotorSpeed, velocity2);
+   
     
     setMotor2Dir(speed > 0);
     setMotor2Speed(fabs(speed));
@@ -151,6 +153,9 @@ void controlRightMotorSpeed(){
         return;
     }
     float speed = pi_control(&rightSpeedContoller, rightMotorSpeed, velocity1);
+    
+    
+    
     
     setMotor1Dir(speed > 0);
     setMotor1Speed(fabs(speed));
@@ -191,6 +196,7 @@ void motorStop(){
     setRightMotorSpeed(0);
     resetControl(&leftSpeedContoller);
     resetControl(&rightSpeedContoller);
+    resetEncoder();
 }
 
 void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void){

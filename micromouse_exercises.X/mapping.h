@@ -41,6 +41,7 @@ Position getNeighborPosition(Position pos, int dir);
 void getNeighbors(Position pos);
 int minNeighbor(Position currentPos);
 void floodfill(Position pos);
+void goalReached();
 void updateMap();
 void runMapping();
 

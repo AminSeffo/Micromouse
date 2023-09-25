@@ -7,6 +7,7 @@
 #include "sensors.h"
 #include "pathPlanner.h"
 #include "serialComms.h"
+#include "IOconfig.h"
 
 
 #define MAP_SIZE 6
@@ -91,8 +92,8 @@ void initMapping(){
     }
     //init outer walls to closed
     for(int i = 0; i < MAP_SIZE; i++){
-        map[MAP_SIZE-1][i].topWall = CLOSED;
-        map[i][MAP_SIZE-1].rightWall = CLOSED;
+        map[MAP_SIZE-1][i].rightWall = CLOSED;
+        map[i][MAP_SIZE-1].topWall = CLOSED;
     }
     //init first cell
     map[0][0].topWall = OPEN;
@@ -206,9 +207,9 @@ int minNeighbor(Position currentPos){
     int minDir = -1;
     getNeighbors(currentPos);
     for (int i = 0; i < 4; i++){
-        char buffer[16];
-        sprintf(buffer, "%d \n\r\0", neighbors[i].value);
-        putsUART1(buffer);
+//        char buffer[16];
+//        sprintf(buffer, "%d \n\r\0", neighbors[i].value);
+//        putsUART1(buffer);
         if (neighbors[i].value < minVal){
 //            char buffer[32];
 //            sprintf(buffer, "%d %d %d %d %d\n\r\0", currentPos.x, currentPos.y,i, minVal, neighbors[i].value);
@@ -219,6 +220,11 @@ int minNeighbor(Position currentPos){
         }
     }
     return minDir;
+}
+
+void goalReached(){
+    mousePos.pos.x = 2;
+    mousePos.pos.y = 2;
 }
 
 void floodfill(Position pos){
@@ -233,18 +239,25 @@ void floodfill(Position pos){
         Cell current = map[pos.x][pos.y];
         getNeighbors(pos);
 
+        if (neighbors[0].value!= 90 && neighbors[1].value!= 90 && neighbors[2].value!= 90 && neighbors[3].value!= 90){
+            char buffer[32];
+            sprintf(buffer, "%d %d: %d %d %d %d \n\r\0", pos.x, pos.y, neighbors[0].value, neighbors[1].value, neighbors[2].value, neighbors[3].value);
+            putsUART1(buffer);
+        }
+        
         //get min value of neighbors
-        int min = 10;
+        int min = 90;
         int dir = -1;
         for (int i = 0; i < 4; i++){
-            if (neighbors[i].value != -1 && neighbors[i].value < min){
+            if (neighbors[i].value < min){
                 min = neighbors[i].value;
                 dir = i;
             }
         }
-
-        //if min value is smaller than current value
-        if (min != current.value-1){
+        
+  
+        //if min value is not one step closer to the goal it is one step further
+        if (min != current.value-1 && dir != -1){
             //update value of current cell
             map[pos.x][pos.y].value = min+1;
             //push neighbors to stack
@@ -257,7 +270,18 @@ void floodfill(Position pos){
         }
     }
 }
-
+void setTopWall(int x, int y, int value){
+    if (x<0|| y<0 || x>= MAP_SIZE || y>=MAP_SIZE){
+        return;
+    }
+    map[x][y].topWall = value;
+}
+void setRightWall(int x, int y, int value){
+    if (x<0|| y<0 || x>= MAP_SIZE || y>=MAP_SIZE){
+        return;
+    }
+    map[x][y].rightWall = value;
+}
 
 void updateMap(){
     //check for walls
@@ -265,101 +289,108 @@ void updateMap(){
     if(mousePos.orientation==TOP){
         //check for walls to the top and right
         if (get_front_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x][mousePos.pos.y].topWall = CLOSED;
+            setTopWall(mousePos.pos.x, mousePos.pos.y, CLOSED);
         }else{
-            map[mousePos.pos.x][mousePos.pos.y].topWall = OPEN;
+            setTopWall(mousePos.pos.x, mousePos.pos.y, OPEN);
         }
         if (get_right_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x][mousePos.pos.y].rightWall = CLOSED;
+            setRightWall(mousePos.pos.x, mousePos.pos.y, CLOSED);
         }else{
-            map[mousePos.pos.x][mousePos.pos.y].rightWall = OPEN;
+            setRightWall(mousePos.pos.x, mousePos.pos.y, OPEN);
         }
         if (get_left_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = CLOSED;
+            setRightWall(mousePos.pos.x-1, mousePos.pos.y, CLOSED);
         }else{
-            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = OPEN;
+            setRightWall(mousePos.pos.x-1, mousePos.pos.y, OPEN);
         }
         //bottom wall is open
-        if (mousePos.pos.y != 0){
-            map[mousePos.pos.x][mousePos.pos.y-1].topWall = OPEN;
-        }
+        setTopWall(mousePos.pos.x, mousePos.pos.y-1, OPEN);
     }
 
     if(mousePos.orientation ==RIGHT){
         if(get_front_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x][mousePos.pos.y].rightWall = CLOSED;
+            setRightWall(mousePos.pos.x, mousePos.pos.y, CLOSED);
         }else{
-            map[mousePos.pos.x][mousePos.pos.y].rightWall = OPEN;
+            setRightWall(mousePos.pos.x, mousePos.pos.y, OPEN);
         }
         if(get_right_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x][mousePos.pos.y-1].topWall = CLOSED;
+            setTopWall(mousePos.pos.x, mousePos.pos.y-1, CLOSED);
         }else{
-            map[mousePos.pos.x][mousePos.pos.y-1].topWall = OPEN;
+            setTopWall(mousePos.pos.x, mousePos.pos.y-1, OPEN);
         }
         if(get_left_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x][mousePos.pos.y].topWall = CLOSED;
+            setTopWall(mousePos.pos.x, mousePos.pos.y, CLOSED);
         }else{
-            map[mousePos.pos.x][mousePos.pos.y].topWall = OPEN;
+            setTopWall(mousePos.pos.x, mousePos.pos.y, OPEN);
         }
-        map[mousePos.pos.x-1][mousePos.pos.y].rightWall = OPEN;
+        setRightWall(mousePos.pos.x-1, mousePos.pos.y, OPEN);
     }
 
     if(mousePos.orientation == LEFT){
         if(get_front_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = CLOSED;
+            setRightWall(mousePos.pos.x-1, mousePos.pos.y, CLOSED);
         }else{
-            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = OPEN;
+            setRightWall(mousePos.pos.x-1, mousePos.pos.y, OPEN);
         }
         if(get_right_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x][mousePos.pos.y].topWall = CLOSED;
+            setTopWall(mousePos.pos.x, mousePos.pos.y, CLOSED);
         }else{
-            map[mousePos.pos.x][mousePos.pos.y].topWall = OPEN;
+            setTopWall(mousePos.pos.x, mousePos.pos.y, OPEN);
         }
         if(get_left_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x][mousePos.pos.y-1].topWall = CLOSED;
+            setTopWall(mousePos.pos.x, mousePos.pos.y-1, CLOSED);
         }else{
-            map[mousePos.pos.x][mousePos.pos.y-1].topWall = OPEN;
+            setTopWall(mousePos.pos.x, mousePos.pos.y-1, OPEN);
         }
-        map[mousePos.pos.x][mousePos.pos.y].rightWall = OPEN;
+        setRightWall(mousePos.pos.x, mousePos.pos.y, OPEN);
     }
 
     if(mousePos.orientation == BOTTOM){
         if(get_front_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x][mousePos.pos.y-1].topWall = CLOSED;
+            setTopWall(mousePos.pos.x, mousePos.pos.y-1, CLOSED);
         }else{
-            map[mousePos.pos.x][mousePos.pos.y-1].topWall = OPEN;
+            setTopWall(mousePos.pos.x, mousePos.pos.y-1, OPEN);
         }
         if(get_right_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = CLOSED;
+            setRightWall(mousePos.pos.x-1, mousePos.pos.y, CLOSED);
         }else{
-            map[mousePos.pos.x-1][mousePos.pos.y].rightWall = OPEN;
+            setRightWall(mousePos.pos.x-1, mousePos.pos.y, OPEN);
         }
         if(get_left_distance_in_cm() < THRESHOLD_NO_WALL){
-            map[mousePos.pos.x][mousePos.pos.y].rightWall = CLOSED;
+            setRightWall(mousePos.pos.x, mousePos.pos.y, CLOSED);
         }else{
-            map[mousePos.pos.x][mousePos.pos.y].rightWall = OPEN;
+            setRightWall(mousePos.pos.x, mousePos.pos.y, OPEN);
         }
-        map[mousePos.pos.x][mousePos.pos.y].topWall = OPEN;
+        setTopWall(mousePos.pos.x, mousePos.pos.y, OPEN);
     }
 }
 
 void runMapping(){
     initMapping();
     initMousePos();
+    LED1 = LEDOFF;
+    LED2 = LEDOFF;
+    LED3 = LEDOFF;
     
     //while there is a cell with lower value than current cell go there
     while (map[mousePos.pos.x][mousePos.pos.y].value > 0){
         //update cell Walls
-
+        
         //check if there is a neighbor with lower value
         int direction = minNeighbor(mousePos.pos);
         if (direction != -1){
+            //there is a neighbor with lower value, go there
+            
             goDir(direction, mousePos.orientation);
             updateMouse(mousePos.pos, direction);
             updateMap();
         }else{
+            LED3=~ LED3;
             //there is nowhere to go, do floodfill
             floodfill(mousePos.pos);
         }
     }
+    LED1 = LEDON;
+    LED2 = LEDON;
+    LED3 = LEDON;
 }

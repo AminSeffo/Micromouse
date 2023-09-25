@@ -23,8 +23,5 @@ void goDir(int newDir, int currentDir){
             rotateDegree(90-8);
             break;
     }
-    char buffer[16];
-    sprintf(buffer, "%d %d %d \n\r\0",newDir, currentDir, turn );
-    putsUART1(buffer);
     newDriveDistance(17.5);
 }

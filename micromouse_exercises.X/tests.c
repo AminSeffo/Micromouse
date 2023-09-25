@@ -266,7 +266,7 @@ void testDriveCommands(){
     setupIO();
     setupUART1();
     setupMotorEncoders(0,0);
-    initButton(stopSpeed);
+    initButton(goalReached);
 
     setMotor1Dir(1);
     setMotor2Dir(0);
@@ -371,6 +371,7 @@ void testTurnDir(){
     setupIO();
     setupUART1();
     setupMotor();
+    initButton(stopSpeed);
     initSensors();
     setupMotorEncoders(0, 0);
     setupMotorSpeedController();
