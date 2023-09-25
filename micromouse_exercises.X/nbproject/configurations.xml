@@ -17,6 +17,8 @@
       <itemPath>button.h</itemPath>
       <itemPath>sensors.h</itemPath>
       <itemPath>drive.h</itemPath>
+      <itemPath>pathPlanner.h</itemPath>
+      <itemPath>config.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -39,6 +41,7 @@
       <itemPath>button.c</itemPath>
       <itemPath>sensors.c</itemPath>
       <itemPath>drive.c</itemPath>
+      <itemPath>pathPlanner.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

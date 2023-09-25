@@ -8,6 +8,10 @@
 #ifndef CONFIG_H
 #define	CONFIG_H
 
+#define TOP 0
+#define LEFT 1
+#define BOTTOM 2
+#define RIGHT 3
 
 #define MOTOR_SPEED 0.2
 #define MOTOR_MAX_SPEED 40
