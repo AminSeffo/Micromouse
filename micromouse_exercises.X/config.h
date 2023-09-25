@@ -17,6 +17,7 @@
 #define T_uc 37.5*1e-9
 
 #define THRESHOLD_NO_WALL 7.0
+#define DISTANCE_WHEN_CENTERED 5.1
 
 #define WHEEL_DISTANCE_CM 9.6
 

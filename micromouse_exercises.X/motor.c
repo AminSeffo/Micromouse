@@ -189,6 +189,8 @@ void startSpeedControllerTimer(){
 void motorStop(){
     setLeftMotorSpeed(0);
     setRightMotorSpeed(0);
+    resetControl(&leftSpeedContoller);
+    resetControl(&rightSpeedContoller);
 }
 
 void __attribute__((__interrupt__, auto_psv)) _T2Interrupt(void){

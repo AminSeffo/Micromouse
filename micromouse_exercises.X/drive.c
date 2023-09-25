@@ -138,15 +138,30 @@ void setupLineFollowController(){
 void lineFollowCotroller(){
     float rightD = get_right_distance_in_cm();
     float leftD = get_left_distance_in_cm();
+    float errorSignal;
+
+    int noWallLeft = leftD > THRESHOLD_NO_WALL;
+    int noWallRight = rightD > THRESHOLD_NO_WALL;
     
-    if (leftD > THRESHOLD_NO_WALL || rightD > THRESHOLD_NO_WALL) {
+    if (noWallLeft && noWallRight) {
         setLeftMotorSpeed(MOTOR_SPEED);
         setRightMotorSpeed(MOTOR_SPEED);
-        
         return;
     }
-    
-    float signal = pi_control(&lineController, 0.0, rightD-leftD);
+
+    if (noWallLeft) {
+        errorSignal =  (rightD - DISTANCE_WHEN_CENTERED)*2;
+    }
+    else if (noWallRight) {
+        errorSignal = (DISTANCE_WHEN_CENTERED - leftD)*2;
+    }
+    else {
+        errorSignal = rightD - leftD;
+    }
+
+
+
+    float signal = pi_control(&lineController, 0.0, errorSignal);
     
     if (signal>0){
         setLeftMotorSpeed(MOTOR_SPEED * (1-0.5*signal));
@@ -188,6 +203,7 @@ void startLineController(){
 
 void stopLineController(){
     T3CONbits.TON = 0;
+    resetControl(&lineController);
 }
 
 void __attribute__((__interrupt__, auto_psv)) _T3Interrupt(void){
