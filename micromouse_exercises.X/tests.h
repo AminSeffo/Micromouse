@@ -24,6 +24,9 @@ void testForward();
 void plotSensorValues();
 void lineFollowTest();
 void driveDistanceTest();
+void testMapping();
+
+void testTurnDir();
 
 #endif	/* TESTS_H */
 

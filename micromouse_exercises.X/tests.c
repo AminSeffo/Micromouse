@@ -10,6 +10,8 @@
 #include "drive.h"
 #include "sensors.h"
 #include "control.h"
+#include "mapping.h"
+#include "pathPlanner.h"
 
 void runLedTest() {
     setupIO();
@@ -284,11 +286,11 @@ void testDriveCommands(){
                 setMotor1Speed(0);
                 setMotor2Speed(0);
                 break;
-            case LEFT:
+            case GO_LEFT:
                 setMotor1Speed(speed);
                 setMotor2Speed(speed/2);
                 break;
-            case RIGHT:
+            case GO_RIGHT:
                 setMotor1Speed(speed/2);
                 setMotor2Speed(speed);
                 break;
@@ -341,11 +343,11 @@ void mouseCtrlTest(){
             case STOP:
               
                 break;
-            case LEFT:
+            case GO_LEFT:
                 mouse_state = STOP;
                 rotateDegree(-90+8);
                 break;
-            case RIGHT:
+            case GO_RIGHT:
                 mouse_state = STOP;
                 rotateDegree(90-8);
                 break;
@@ -353,3 +355,36 @@ void mouseCtrlTest(){
     }
 }
 
+void testMapping(){
+    setupIO();
+    setupUART1();
+    setupMotor();
+    initSensors();
+    setupMotorEncoders(0, 0);
+    setupMotorSpeedController();
+    setupLineFollowController();
+    
+    runMapping();
+}
+
+void testTurnDir(){
+    setupIO();
+    setupUART1();
+    setupMotor();
+    initSensors();
+    setupMotorEncoders(0, 0);
+    setupMotorSpeedController();
+    setupLineFollowController();
+    
+    for(int new=0; new < 4; new++){
+        for(int old =0; old < 4; old++){
+            for(int i=0; i<4000; i++){
+                for(int j= 0; j<1000; j++);
+            }
+            goDir(new, old);
+            char buffer[16];
+            sprintf(buffer, "%d %d\n\r\0", new, old );
+            putsUART1(buffer);
+        }
+    }
+}

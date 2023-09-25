@@ -34,12 +34,14 @@ int isEmpty( StackNode *root);
 void push( StackNode** root, Position pos);
 Position pop( StackNode** root);
 
-Position getNextPosition(Position pos, int dir);
+void updateMouse(Position pos, int dir);
 void initMapping();
 void initMousePos();
-Cell* getNeighbors(Position pos);
+Position getNeighborPosition(Position pos, int dir);
+void getNeighbors(Position pos);
 int minNeighbor(Position currentPos);
 void floodfill(Position pos);
+void updateMap();
 void runMapping();
 
 #endif	/* MAPPING_H */

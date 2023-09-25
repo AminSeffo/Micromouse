@@ -8,6 +8,7 @@
 #ifndef DRIVE_H
 #define	DRIVE_H
 
+#include "control.h"
 
 void controlPosition(long pos, long encoderValue, PIControl *posController, PIControl *pathController);
 void driveDistance(float distanceCM);

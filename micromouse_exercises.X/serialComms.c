@@ -81,10 +81,10 @@ void __attribute__((interrupt, no_auto_psv)) _U1RXInterrupt(void)
 			mouse_state = START;
 			break;
 		case 'a':
-			mouse_state = LEFT;
+			mouse_state = GO_LEFT;
 			break;
 		case 'd':
-			mouse_state = RIGHT;
+			mouse_state = GO_RIGHT;
 			break;
 	}
         //wait until the character is gone...

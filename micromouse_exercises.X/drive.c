@@ -92,7 +92,6 @@ void stopDrive(){
 
 void rotateDegree(float deg) {
     float distanceCM = deg/360.0 * WHEEL_DISTANCE_CM * M_PI;
-    
     long ticks = distanceCM * (TICKS_PER_WHEELROTATION/(WHEEL_DIAMETER*M_PI));
     long goal = getPositionInCounts_2() + ticks;
     

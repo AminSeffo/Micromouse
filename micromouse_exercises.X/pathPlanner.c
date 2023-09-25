@@ -1,11 +1,13 @@
 #include "pathPlanner.h"
 #include "config.h"
 #include "drive.h"
+#include "serialComms.h"
+#include <xc.h>
+#include "stdio.h"
 
-int currentDir = TOP;
 
-void goDir(int dir){
-    int turn = (dir - currentDir) % 4;
+void goDir(int newDir, int currentDir){
+    int turn = (newDir - currentDir + 4) % 4;
     switch (turn) {
         case 0:
             break;
@@ -21,7 +23,8 @@ void goDir(int dir){
             rotateDegree(90-8);
             break;
     }
-    currentDir = dir;
-    
+    char buffer[16];
+    sprintf(buffer, "%d %d %d \n\r\0",newDir, currentDir, turn );
+    putsUART1(buffer);
     newDriveDistance(17.5);
 }

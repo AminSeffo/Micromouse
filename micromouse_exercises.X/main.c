@@ -54,7 +54,7 @@
 #include "motorEncoders.h"
 #include "control.h"
 #include <stdio.h>
-
+#include "mapping.h"
 
 #include "tests.h"
 
@@ -129,8 +129,12 @@ int main()
     //lineFollowTest();
     //driveDistanceTest();
     //rotationTest();
-    mouseCtrlTest();
-    
+//    mouseCtrlTest();
+    for(int j = 0; j<1000; j++){
+       for(int i = 0; i<4000; i++);
+    }
+    testMapping();
+    //testTurnDir();
     for(;;);
     
 	

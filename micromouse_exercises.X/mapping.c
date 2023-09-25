@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "config.h"
+#include "drive.h"
+#include "sensors.h"
+#include "pathPlanner.h"
+#include "serialComms.h"
 
 
 #define MAP_SIZE 6
@@ -14,6 +18,7 @@
 #define CLOSED 2
 
 Cell map[MAP_SIZE][MAP_SIZE];
+Cell neighbors[4];
 
 MousePos mousePos;
 
@@ -50,7 +55,7 @@ Position pop(StackNode** root){
 /*
 returns the position of the neighbor cell in the given direction
 */
-Position getNextPosition(Position pos, int dir){
+void updateMouse(Position pos, int dir){
     Position newPos = pos;
     switch(dir){
         case RIGHT:
@@ -68,7 +73,8 @@ Position getNextPosition(Position pos, int dir){
         default:
             break;
     }
-    return newPos;
+    mousePos.pos = newPos;
+    mousePos.orientation = dir;
 }
 
 /*
@@ -79,7 +85,6 @@ void initMapping(){
     //init all walls to unkown
     for(int i = 0; i < MAP_SIZE; i++){
         for(int j = 0; j < MAP_SIZE; j++){
-            map[i][j].value = UNKNOWN;
             map[i][j].topWall = UNKNOWN;
             map[i][j].rightWall = UNKNOWN;
         }
@@ -93,7 +98,8 @@ void initMapping(){
     map[0][0].topWall = OPEN;
     map[0][0].rightWall = CLOSED;
 
-    //init values according to floodfill
+    //init values according to floodfill 
+
     //inner circle
     for(int i = 2; i <=3; i++){
         for(int j = 2; j <=3; j++){
@@ -138,56 +144,78 @@ void initMousePos(){
     mousePos.orientation = TOP;
 }
 
+Position getNeighborPosition(Position pos, int dir){
+    Position newPos = pos;
+    switch(dir){
+        case RIGHT:
+            newPos.x++;
+            break;
+        case TOP:
+            newPos.y++;
+            break;
+        case LEFT:
+            newPos.x--;
+            break;
+        case BOTTOM:
+            newPos.y--;
+            break;
+        default:
+            break;
+    }
+    return newPos;
+}
+
 /*
 Gets the neighbors of the given position, given the current state of the map
 */
-Cell * getNeighbors(Position pos){
-    Cell neighbors[4];
-    Cell none = {-1,-1,100};
+void getNeighbors(Position pos){
+    Cell blocked = {100,-1,-1};
 
     //wall to the left?
     if (pos.x == 0 || map[pos.x-1][pos.y].rightWall == CLOSED){
-        neighbors[LEFT] = none;
+        neighbors[LEFT] = blocked;
     }else{
         neighbors[LEFT] = map[pos.x-1][pos.y];
     }
     //wall to the right?
     if (pos.x == MAP_SIZE-1 || map[pos.x][pos.y].rightWall == CLOSED){
-        neighbors[RIGHT] = none;
+        neighbors[RIGHT] = blocked;
     }else{
         neighbors[RIGHT] = map[pos.x+1][pos.y];
     }
     //wall to the top?
     if (pos.y == MAP_SIZE-1 || map[pos.x][pos.y].topWall == CLOSED){
-        neighbors[TOP] = none;
+        neighbors[TOP] = blocked;
     }else{
         neighbors[TOP] = map[pos.x][pos.y+1];
     }
     //wall to the bottom?
     if (pos.y == 0 || map[pos.x][pos.y-1].topWall == CLOSED){
-        neighbors[BOTTOM] = none;
+        neighbors[BOTTOM] = blocked;
     }else{
         neighbors[BOTTOM] = map[pos.x][pos.y-1];
     }
-
-    return neighbors;
 }
-
-
 
 /*
 returns the direction of the neighbor with the lowest value
 */
 int minNeighbor(Position currentPos){
     int currentVal = map[currentPos.x][currentPos.y].value;
-    Position minPos = currentPos;
     int minVal = currentVal;
     int minDir = -1;
-    Position * neighbors= getNeighbors(currentPos);
+    getNeighbors(currentPos);
     for (int i = 0; i < 4; i++){
-        if (map[neighbors[i].x][neighbors[i].y].value < minVal){
-            minVal = map[neighbors[i].x][neighbors[i].y].value;
+        char buffer[16];
+        sprintf(buffer, "%d \n\r\0", neighbors[i].value);
+        putsUART1(buffer);
+        if (neighbors[i].value < minVal){
+//            char buffer[32];
+//            sprintf(buffer, "%d %d %d %d %d\n\r\0", currentPos.x, currentPos.y,i, minVal, neighbors[i].value);
+//            putsUART1(buffer);
+            minVal = neighbors[i].value;
             minDir = i;
+            
         }
     }
     return minDir;
@@ -203,7 +231,7 @@ void floodfill(Position pos){
         pos = pop(&root);
 
         Cell current = map[pos.x][pos.y];
-        Cell * neighbors = getNeighbors(pos);
+        getNeighbors(pos);
 
         //get min value of neighbors
         int min = 10;
@@ -222,38 +250,14 @@ void floodfill(Position pos){
             //push neighbors to stack
             for(int i = 0; i<4; i++){
                 if (neighbors[i].value != 100){
-                    Position posNeighbor = getNextPosition(pos, i);
+                    Position posNeighbor = getNeighborPosition(pos, i);
                     push(&root, posNeighbor);
                 }
             }
         }
     }
 }
-void turnToDirection(int direction){
-    int diff = direction - mousePos.orientation;
-    if (diff == 1 || diff == -3){
-        //turn right
-        rotateDegree(90.0);
-    }else if (diff == -1 || diff == 3){
-        //turn left
-        rotateDegree(-90.0);
-    }else if (diff == 2 || diff == -2){
-        //turn around
-        rotateDegree(180.0);
-    }
-    mousePos.orientation = direction;
-}
-void goToNeighbor(int direction){
-    //check if we are facing the right direction
-    if (mousePos.orientation != direction){
-        //turn to the right direction
-        turnToDirection(direction);
-    }
-    //move forward
-    newDriveDistance(CELL_SIZE);
-    //update mouse position
-    mousePos.pos = getNextPosition(mousePos.pos, direction);
-}
+
 
 void updateMap(){
     //check for walls
@@ -337,8 +341,6 @@ void updateMap(){
         }
         map[mousePos.pos.x][mousePos.pos.y].topWall = OPEN;
     }
-    
-    
 }
 
 void runMapping(){
@@ -352,8 +354,9 @@ void runMapping(){
         //check if there is a neighbor with lower value
         int direction = minNeighbor(mousePos.pos);
         if (direction != -1){
-            //go to neighbor
-            goToNeighbor(direction);
+            goDir(direction, mousePos.orientation);
+            updateMouse(mousePos.pos, direction);
+            updateMap();
         }else{
             //there is nowhere to go, do floodfill
             floodfill(mousePos.pos);

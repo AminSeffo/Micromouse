@@ -35,8 +35,8 @@
 
 #define STOP 0
 #define START 1
-#define LEFT 2
-#define RIGHT 3    
+#define GO_LEFT 2
+#define GO_RIGHT 3    
 
 
 extern int mouse_state;

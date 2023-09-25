@@ -8,16 +8,6 @@
 #ifndef PATHPLANNER_H
 #define	PATHPLANNER_H
 
-#ifdef	__cplusplus
-extern "C" {
-#endif
-
-
-
-
-#ifdef	__cplusplus
-}
-#endif
-
+void goDir(int newDir, int currentDir);
 #endif	/* PATHPLANNER_H */
 
