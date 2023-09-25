@@ -343,11 +343,11 @@ void mouseCtrlTest(){
                 break;
             case LEFT:
                 mouse_state = STOP;
-                rotateDegree(-90);
+                rotateDegree(-90+8);
                 break;
             case RIGHT:
                 mouse_state = STOP;
-                rotateDegree(90);
+                rotateDegree(90-8);
                 break;
         }
     }
