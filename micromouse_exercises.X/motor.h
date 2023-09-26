@@ -5,7 +5,8 @@
 #ifndef MICROMOUSE_MOTOR_H
 #define MICROMOUSE_MOTOR_H
 
-#define MYPWM_MAX (2*26666L)
+//#define MYPWM_MAX (2*26666L)
+#define MYPWM_MAX (1333L)
 
 void setupMotor();
 void setMotorBreak(void);

@@ -20,6 +20,7 @@
       <itemPath>config.h</itemPath>
       <itemPath>drive.h</itemPath>
       <itemPath>pathPlanner.h</itemPath>
+      <itemPath>mouseMain.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -44,6 +45,7 @@
       <itemPath>mapping.c</itemPath>
       <itemPath>drive.c</itemPath>
       <itemPath>pathPlanner.c</itemPath>
+      <itemPath>mouseMain.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

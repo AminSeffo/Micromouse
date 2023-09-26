@@ -13,15 +13,15 @@ void goDir(int newDir, int currentDir){
             break;
         case 1:
             //rotate left
-            rotateDegree(-90+8);
+            rotateDegree(-90+7);
             break;
         case 2:
-            rotateDegree(-90+8);
-            rotateDegree(-90+8);
+            rotateDegree(-90+7);
+            rotateDegree(-90+7);
             break;
         case 3:
-            rotateDegree(90-8);
+            rotateDegree(90-7);
             break;
     }
-    newDriveDistance(17.5);
+    newDriveDistance(17.8);
 }

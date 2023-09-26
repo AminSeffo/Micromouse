@@ -124,9 +124,10 @@ void setRightMotorSpeed(float speed){
 
 void setupMotorSpeedController(){
     
-    PIControl_Init(&leftSpeedContoller, 0.0083, 0.0005, 0);
-    PIControl_Init(&rightSpeedContoller, 0.01, 0.0015, 0);
-    
+    //PIControl_Init(&leftSpeedContoller, 0.0083, 0.0005, 0);
+    //PIControl_Init(&rightSpeedContoller, 0.01, 0.0015, 0);
+    PIControl_Init(&leftSpeedContoller, 0.2, 0.0005, 0);
+    PIControl_Init(&rightSpeedContoller, 0.2, 0.0009, 0);
     setupSpeedControllerTimer(MOTOR_SPEED_CONTROL_INT_IN_MS);
     
     startSpeedControllerTimer();

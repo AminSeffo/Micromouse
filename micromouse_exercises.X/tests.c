@@ -181,8 +181,8 @@ void speedControllerTest() {
 
     //putsUART1("Start Measurements:\n\r\0");
 
-    setLeftMotorSpeed(0.8);
-    setRightMotorSpeed(0.8);
+    setLeftMotorSpeed(0.4);
+    setRightMotorSpeed(0.4);
 
     for (;;) {
         char buffer[16];

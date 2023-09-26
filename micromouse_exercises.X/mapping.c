@@ -368,8 +368,7 @@ void updateMap(){
 void runMapping(){
     initMapping();
     initMousePos();
-    LED1 = LEDOFF;
-    LED2 = LEDOFF;
+
     LED3 = LEDOFF;
     
     //while there is a cell with lower value than current cell go there
@@ -390,7 +389,6 @@ void runMapping(){
             floodfill(mousePos.pos);
         }
     }
-    LED1 = LEDON;
-    LED2 = LEDON;
+
     LED3 = LEDON;
 }
