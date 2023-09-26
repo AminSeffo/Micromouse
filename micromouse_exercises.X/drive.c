@@ -93,7 +93,9 @@ void stopDrive(){
 void rotateDegree(float deg){
     float distanceCM = deg/360.0 * WHEEL_DISTANCE_CM * M_PI;
     long ticks = distanceCM * (TICKS_PER_WHEELROTATION/(WHEEL_DIAMETER*M_PI));
+    stopDrive();
     long goal = getPositionInCounts_2() + ticks;
+    
     
     if (deg > 0) {
         setLeftMotorSpeed(MOTOR_SPEED);
@@ -116,10 +118,10 @@ void newDriveDistance(float distanceCM){
     long goal = getPositionInCounts_2() + ticks;
     
     startLineController();
-    while(getPositionInCounts_2() < goal);
+    while(getPositionInCounts_2() < goal && get_front_distance_in_cm()>3.0);
     
     stopLineController();
-    stopDrive();
+    // stopDrive();
 }
 
 void driveCells(int nrCells){

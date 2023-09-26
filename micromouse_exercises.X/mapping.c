@@ -23,34 +23,21 @@ Cell neighbors[4];
 
 MousePos mousePos;
 
-StackNode allNodes[MAP_SIZE][MAP_SIZE];
+Position stack[MAP_SIZE*MAP_SIZE];
+int stackPointer = 0;
 
-StackNode * newNode(Position pos){
-    allNodes[pos.x][pos.y].pos = pos;
-    allNodes[pos.x][pos.y].next = NULL;
-    return &allNodes[pos.x][pos.y];
+int isEmpty(){
+    return stackPointer == 0;
 }
 
-int isEmpty(StackNode *root){
-    return !root;
+void push(Position pos){
+    stack[stackPointer] = pos;
+    stackPointer++;
 }
 
-void push( StackNode** root, Position pos){
-    StackNode* stackNode = newNode(pos);
-    stackNode->next = *root;
-    *root = stackNode;
-}
-
-Position pop(StackNode** root){
-    if(isEmpty(*root)){
-        Position pos = {-1,-1};
-        return pos;
-    }
-    StackNode* temp = *root;
-    *root = (*root)->next;
-    Position pos = temp->pos;
-    free(temp);
-    return pos;
+Position pop(){
+    stackPointer--;
+    return stack[stackPointer];
 }
 
 /*
@@ -170,7 +157,7 @@ Position getNeighborPosition(Position pos, int dir){
 Gets the neighbors of the given position, given the current state of the map
 */
 void getNeighbors(Position pos){
-    Cell blocked = {100,-1,-1};
+    Cell blocked = {100,0,0};
 
     //wall to the left?
     if (pos.x == 0 || map[pos.x-1][pos.y].rightWall == CLOSED){
@@ -207,13 +194,7 @@ int minNeighbor(Position currentPos){
     int minDir = -1;
     getNeighbors(currentPos);
     for (int i = 0; i < 4; i++){
-//        char buffer[16];
-//        sprintf(buffer, "%d \n\r\0", neighbors[i].value);
-//        putsUART1(buffer);
         if (neighbors[i].value < minVal){
-//            char buffer[32];
-//            sprintf(buffer, "%d %d %d %d %d\n\r\0", currentPos.x, currentPos.y,i, minVal, neighbors[i].value);
-//            putsUART1(buffer);
             minVal = neighbors[i].value;
             minDir = i;
             
@@ -228,22 +209,22 @@ void goalReached(){
 }
 
 void floodfill(Position pos){
-    StackNode* root = NULL;
+    stackPointer = 0;
 
-    push(&root, pos);
+    push(pos);
+    
     //while stack is not empty
-    while(!isEmpty(root)){
+    while(!isEmpty()){
+        char buffer[32];
+        sprintf(buffer, "\nHier kommt der Stack: \n\r\0");
+        putsUART1(buffer);
         //pop stack
-        pos = pop(&root);
-
+        pos = pop();
+        
         Cell current = map[pos.x][pos.y];
         getNeighbors(pos);
 
-        if (neighbors[0].value!= 90 && neighbors[1].value!= 90 && neighbors[2].value!= 90 && neighbors[3].value!= 90){
-            char buffer[32];
-            sprintf(buffer, "%d %d: %d %d %d %d \n\r\0", pos.x, pos.y, neighbors[0].value, neighbors[1].value, neighbors[2].value, neighbors[3].value);
-            putsUART1(buffer);
-        }
+        
         
         //get min value of neighbors
         int min = 90;
@@ -254,7 +235,6 @@ void floodfill(Position pos){
                 dir = i;
             }
         }
-        
   
         //if min value is not one step closer to the goal it is one step further
         if (min != current.value-1 && dir != -1){
@@ -264,7 +244,7 @@ void floodfill(Position pos){
             for(int i = 0; i<4; i++){
                 if (neighbors[i].value != 100){
                     Position posNeighbor = getNeighborPosition(pos, i);
-                    push(&root, posNeighbor);
+                    push(posNeighbor);
                 }
             }
         }
@@ -370,25 +350,32 @@ void runMapping(){
     initMousePos();
 
     LED3 = LEDOFF;
-    
+    LED2 = LEDOFF;
+    int floodfill_double = 0;
     //while there is a cell with lower value than current cell go there
     while (map[mousePos.pos.x][mousePos.pos.y].value > 0){
         //update cell Walls
         
         //check if there is a neighbor with lower value
         int direction = minNeighbor(mousePos.pos);
+        
+        
         if (direction != -1){
+            LED3 = LEDOFF;
+            LED2 = LEDOFF;
             //there is a neighbor with lower value, go there
             
             goDir(direction, mousePos.orientation);
             updateMouse(mousePos.pos, direction);
             updateMap();
         }else{
-            LED3=~ LED3;
+            LED1=~ LED1;
+            LED2= LEDON;
+            LED3 = LEDON;
             //there is nowhere to go, do floodfill
             floodfill(mousePos.pos);
         }
     }
 
-    LED3 = LEDON;
+    
 }

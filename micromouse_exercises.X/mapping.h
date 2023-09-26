@@ -29,10 +29,9 @@ typedef struct{
     int orientation;
 }MousePos;
 
-StackNode* newNode(Position pos);
-int isEmpty( StackNode *root);
-void push( StackNode** root, Position pos);
-Position pop( StackNode** root);
+int isEmpty();
+void push(Position pos);
+Position pop();
 
 void updateMouse(Position pos, int dir);
 void initMapping();
