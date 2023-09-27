@@ -1,6 +1,6 @@
 /* 
  * File:   mapping.h
- * Author: zeehondje
+ * Author: yara
  *
  * Created on September 25, 2023, 11:37 AM
  */
@@ -18,11 +18,6 @@ typedef struct {
     int x;
     int y;
 }Position;
-
-typedef struct{
-    Position pos;
-    struct Stack *next;
-}StackNode;
 
 typedef struct{
     Position pos;
