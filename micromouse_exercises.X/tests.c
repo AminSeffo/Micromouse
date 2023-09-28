@@ -147,7 +147,7 @@ void plotBatteryVoltage(){
     for (;;){
 
         char buffer[16];
-        sprintf(buffer, "%d\n\r\0", getBatteryVoltage(BATTERY_SENSOR_DATA));
+        sprintf(buffer, "%.3f\n\r\0", getBatteryVoltage(BATTERY_SENSOR_DATA));
         putsUART1(buffer);
         for(int i = 0; i < 1000; i++){
             LED3=~LED3;

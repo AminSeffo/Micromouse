@@ -118,7 +118,7 @@ int main()
 //    testSpeedControl();
     
 //	plotSensorValues();
-    followLaneController();
+    plotBatteryVoltage();
     
     for(;;);
     
