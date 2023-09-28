@@ -33,6 +33,14 @@
 
 #include <xc.h> // include processor files - each processor file is guarded.  
 
+#define STOP 0
+#define START 1
+#define GO_LEFT 2
+#define GO_RIGHT 3    
+
+
+extern int mouse_state;
+
 void setupUART1(void);
 void putsUART1(char *buffer);
 #endif	/* SERIALCOMMS_H */

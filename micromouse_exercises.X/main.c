@@ -47,14 +47,10 @@
 #include "xc.h"
 #include "IOconfig.h"
 // #include "myTimers.h"
-#include "myPWM.h"
-#include "serialComms.h"
-#include "dma.h"
-#include "adc.h"
-#include "motorEncoders.h"
-#include "control.h"
+
 #include <stdio.h>
 
+#include "mouseMain.h"
 
 #include "tests.h"
 
@@ -110,18 +106,12 @@ int main()
     while (OSCCONbits.LOCK != 1)
         ; // Wait for PPL to lock
 
-    
-    //runLedTest();
-    //runEncoderTest(500.0);
-//    plotEncoderValuesUART();
-    
-//    testSpeedControl();
-    
-//	plotSensorValues();
     plotBatteryVoltage();
     
     for(;;);
     
+    setup();
+    mouseLoop();
 	
 	return 0;
 }

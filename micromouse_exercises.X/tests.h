@@ -8,6 +8,9 @@
 #ifndef TESTS_H
 #define	TESTS_H
 
+
+#include "control.h"
+
     
 void runLedTest();
 void runEncoderTest(float pos);
@@ -16,8 +19,15 @@ void plotEncoderValuesUART(void);
 void motorFullSpeed();
 void stopSpeed();
 void testSpeedControl();
+void testDriveCommands();
+void testForward();
 void plotSensorValues();
 void plotBatteryVoltage();
+void lineFollowTest();
+void driveDistanceTest();
+void testMapping();
+
+void testTurnDir();
 
 #endif	/* TESTS_H */
 

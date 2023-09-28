@@ -76,6 +76,12 @@ void initQEI2( unsigned int  startPos)
     TRISBbits.TRISB1 = 0; // Set RB1 as output for encoder 2
 }
 
+void resetEncoder(){
+    rotationCount1=0;
+    POS1CNT=0;
+    rotationCount2=0;
+    POS2CNT=0;
+}
 
 void __attribute__((__interrupt__, auto_psv)) _QEI1Interrupt(void)
 {
