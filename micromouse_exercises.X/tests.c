@@ -142,6 +142,15 @@ void plotBatteryVoltage(){
     setupIO();
     setupUART1();
     initSensors();
+    
+    setupMotor();
+    setupMotorEncoders(0, 0);
+    setupMotorSpeedController();
+    //putsUART1("Start Measurements:\n\r\0");
+
+    setLeftMotorSpeed(1);
+    setRightMotorSpeed(1);
+    
     LED3 = LEDON;
     LED2 =LEDON;
     for (;;){
