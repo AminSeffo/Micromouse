@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-10-01T19:37:03.230Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.43" etag="0ia6pYJTqC-lPQXA32AG" version="22.0.0" type="github">
+<mxfile host="app.diagrams.net" modified="2023-10-01T19:43:25.383Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36 Edg/117.0.2045.43" etag="MZtdaAN7cMfyuSCDrihO" version="22.0.0" type="github">
   <diagram name="Seite-1" id="5r65vuRkeiLdLsrQL4e6">
-    <mxGraphModel dx="948" dy="648" grid="1" gridSize="13" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="898" dy="614" grid="1" gridSize="13" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -214,7 +214,7 @@
         <mxCell id="S7pL7fSciTL6mfDPEQfJ-84" value="Distance Control&amp;nbsp; with 10 Hz" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="190" y="620" width="130" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="S7pL7fSciTL6mfDPEQfJ-86" value="Cascaded Control" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+        <mxCell id="S7pL7fSciTL6mfDPEQfJ-86" value="Cascade Control" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="104" y="195" width="130" height="30" as="geometry" />
         </mxCell>
       </root>
